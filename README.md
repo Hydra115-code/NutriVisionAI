@@ -42,7 +42,7 @@ Se eligió una arquitectura móvil nativa (**React Native + Expo**) porque:
 * **IA:** Google Gemini 1.5 Flash (Multimodal) para reconocimiento de imágenes.
 
 ## Equipo (Roles Sprint 1)
-* Coordinador:** [Mariam Getzamaret Gomez Renteria]
+* Coordinador: [Mariam Getzamaret Gomez Renteria]
 * **Analista:** [Juan Antonio Castañuela Carlos]
 * **Diseñador UX/UI:** [Jesus Manuel Cornejo Rangel]
 * **QA / Tester:** [Francisco Javier Martinez Garcia]
