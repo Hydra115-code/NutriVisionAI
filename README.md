@@ -39,7 +39,7 @@ Se eligió una arquitectura móvil nativa (**React Native + Expo**) porque:
 * **Frontend:** React Native (Expo) + NativeWind.
 * **Backend:** Node.js (Express) para gestión de alertas y usuarios.
 * **Base de Datos:** MySQL (Relacional) para integridad de expedientes.
-* **IA:** Google Gemini 1.5 Flash (Multimodal) para reconocimiento de imágenes.
+* **IA:** Google Gemini 2.5 Flash (Multimodal) para reconocimiento de imágenes.
 
 ## Equipo (Roles Sprint 1)
 * Coordinador: [Mariam Getzamaret Gomez Renteria]
@@ -47,3 +47,5 @@ Se eligió una arquitectura móvil nativa (**React Native + Expo**) porque:
 * **Diseñador UX/UI:** [Jesus Manuel Cornejo Rangel]
 * **QA / Tester:** [Francisco Javier Martinez Garcia]
 * **Desarrollador:** [Erick Martinez Rocha]
+# Estado del Proyecto
+sprint 1- Analisis
