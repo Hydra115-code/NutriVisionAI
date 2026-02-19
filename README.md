@@ -47,3 +47,5 @@ Se eligió una arquitectura móvil nativa (**React Native + Expo**) porque:
 * **Diseñador UX/UI:** [Jesus Manuel Cornejo Rangel]
 * **QA / Tester:** [Francisco Javier Martinez Garcia]
 * **Desarrollador:** [Erick Martinez Rocha]
+# Estado del Proyecto
+sprint 1- Analisis
