@@ -1,51 +1,50 @@
-# NutriVision AI 
+# Welcome to your Expo app 👋
 
-## Descripción
-**Problema que se busca resolver:**
-Los pacientes con Diabetes (Tipo 1 y 2) enfrentan una enorme dificultad diaria para calcular con precisión los carbohidratos de sus comidas, lo cual es vital para su dosificación de insulina. El conteo manual es propenso a errores humanos, tedioso y causa "fatiga por decisión", lo que lleva a un mal control glucémico y riesgos de salud (hipoglucemia/hiperglucemia).
+This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-Esta aplicación busca automatizar este proceso mediante Inteligencia Artificial, permitiendo un registro rápido, visual y preventivo.
+## Get started
 
-## Usuario
-**¿Quién usará el sistema?**
-* **Primario:** Pacientes diagnosticados con Diabetes Mellitus Tipo 1 y 2 que requieren conteo estricto de macronutrientes.
-* **Secundario:** Personas con pre-diabetes o resistencia a la insulina en proceso de reeducación alimentaria.
-* **Terciario:** Cuidadores de adultos mayores o niños que necesitan monitorear la alimentación de sus pacientes a distancia.
+1. Install dependencies
 
-## Alcance
-**Qué SÍ hace:**
-* **Análisis Visual:** Identifica alimentos y estima porciones mediante fotos (Snap & Track) usando IA Generativa.
-* **Cálculo de Riesgo:** Estima carbohidratos netos y emite alertas visuales (Semáforo) si detecta alimentos de alto índice glucémico.
-* **Historial Médico:** Guarda un registro detallado de las comidas para revisión del nutriólogo/médico.
-* **Modo Cuidador:** Permite la supervisión remota de lo que come el paciente.
+   ```bash
+   npm install
+   ```
 
-**Qué NO hace:**
-* **No prescribe insulina:** No calcula unidades de insulina a inyectar (por responsabilidad legal y seguridad médica).
-* **No diagnostica:** No sustituye el juicio de un médico ni realiza diagnósticos clínicos.
-* **No funciona 100% Offline:** Requiere conexión a internet para el procesamiento de la IA en la nube.
+2. Start the app
 
-## Tipo de sistema
-**Móvil Nativo (Android / iOS)**
+   ```bash
+   npx expo start
+   ```
 
-**Justificación:**
-Se eligió una arquitectura móvil nativa (**React Native + Expo**) porque:
-1.  **Hardware:** Requiere acceso directo y optimizado a la cámara del dispositivo para el escaneo de alimentos.
-2.  **Accesibilidad:** Permite adaptar la interfaz (fuentes grandes, alto contraste) para pacientes con dificultades visuales (retinopatía), común en el público objetivo.
-3.  **Ubicuidad:** El control de la diabetes es una necesidad de 24 horas; el usuario necesita la herramienta en su bolsillo, no en una computadora de escritorio.
+In the output, you'll find options to open the app in a
 
----
+- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-## Tecnologías Tentativas (Stack Técnico)
-* **Frontend:** React Native (Expo) + NativeWind.
-* **Backend:** Node.js (Express) para gestión de alertas y usuarios.
-* **Base de Datos:** MySQL (Relacional) para integridad de expedientes.
-* **IA:** Google Gemini 2.5 Flash (Multimodal) para reconocimiento de imágenes.
+You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-## Equipo (Roles Sprint 1)
-* Coordinador: [Mariam Getzamaret Gomez Renteria]
-* **Analista:** [Juan Antonio Castañuela Carlos]
-* **Diseñador UX/UI:** [Jesus Manuel Cornejo Rangel]
-* **QA / Tester:** [Francisco Javier Martinez Garcia]
-* **Desarrollador:** [Erick Martinez Rocha]
-# Estado del Proyecto
-sprint 1- Analisis
+## Get a fresh project
+
+When you're ready, run:
+
+```bash
+npm run reset-project
+```
+
+This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+
+## Learn more
+
+To learn more about developing your project with Expo, look at the following resources:
+
+- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
+- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+
+## Join the community
+
+Join our community of developers creating universal apps.
+
+- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
+- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
