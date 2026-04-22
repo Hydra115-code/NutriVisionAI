@@ -17,7 +17,7 @@ export default function TabLayout() {
         tabBarButton: HapticTab,
       }}>
       
-      {/* 1. CAMBIADO A "index": Esta sería tu pantalla de Escaneo (Home) */}
+      {/* Home */}
       <Tabs.Screen
         name="index" 
         options={{
@@ -28,7 +28,7 @@ export default function TabLayout() {
         }}
       />
 
-      {/* 2. MANTENIDO COMO "explore": Tu pantalla de Gráficas/Progreso */}
+      {/* Gráficas/Progreso */}
       <Tabs.Screen
         name="explore"
         options={{
@@ -39,7 +39,7 @@ export default function TabLayout() {
         }}
       />
 
-      {/* 3. PERFIL: Nombre único */}
+      {/* Perfil */}
       <Tabs.Screen
         name="profile"
         options={{

@@ -1,8 +1,9 @@
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Alert,
   Image,
+  Modal,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -25,6 +26,9 @@ const COLORS = {
 };
 
 export default function HomeScreen() {
+  // Estado para controlar la visibilidad del Pop-up (QA-01)
+  const [modalVisible, setModalVisible] = useState(true);
+
   const handleScan = () => {
     Alert.alert("Cámara", "Iniciando escaneo...");
   };
@@ -57,6 +61,31 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
+
+      {/* --- IMPLEMENTACIÓN POP-UP (MODAL) QA-01 --- */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Ionicons name="warning" size={50} color={COLORS.dangerRed} />
+            <Text style={styles.modalTitle}>¡ADVERTENCIA CRÍTICA!</Text>
+            <Text style={styles.modalDescription}>
+              Se detectó un nivel de azúcar alto (15.2 g).
+            </Text>
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={() => setModalVisible(false)}
+            >
+              <Text style={styles.modalButtonText}>Entendido</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
       <ScrollView contentContainerStyle={styles.scrollContent}>
         
         {/* Encabezado */}
@@ -101,7 +130,7 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {/* --- SECCIÓN CORREGIDA: Alimentos Individuales dentro de cuadro blanco --- */}
+        {/* Alimentos Detectados */}
         <View style={styles.whiteCard}>
           <Text style={styles.sectionTitle}>Alimentos detectados</Text>
           
@@ -162,17 +191,12 @@ const styles = StyleSheet.create({
   alertContent: { marginLeft: 10, flex: 1 },
   alertTitle: { color: COLORS.dangerRed, fontWeight: 'bold', fontSize: 13 },
   alertDescription: { color: COLORS.textMain, fontSize: 12 },
-  
-  // Estilo de tarjeta blanca unificada
   whiteCard: { backgroundColor: COLORS.white, borderRadius: 15, padding: 15, marginBottom: 20, elevation: 3, shadowColor: '#000', shadowOpacity: 0.1, shadowRadius: 5 },
   sectionTitle: { fontSize: 16, fontWeight: 'bold', color: COLORS.textMain, marginBottom: 15 },
-  
   grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' },
   gridItem: { width: '48%', padding: 10, borderRadius: 8, marginBottom: 10, backgroundColor: '#fcfcfc', borderWidth: 1, borderColor: '#f0f0f0' },
   gridLabel: { fontSize: 12, color: COLORS.textSec },
   gridValue: { fontSize: 16, fontWeight: 'bold', marginTop: 4 },
-
-  // Detalles de items individuales
   itemDetail: { borderTopWidth: 1, borderTopColor: '#f0f0f0', paddingTop: 15, marginTop: 10 },
   itemTitleRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 10 },
   idBox: { backgroundColor: COLORS.accentBlue, width: 22, height: 22, borderRadius: 5, justifyContent: 'center', alignItems: 'center', marginRight: 10 },
@@ -182,7 +206,48 @@ const styles = StyleSheet.create({
   statBox: { flex: 1 },
   statLabel: { fontSize: 10, color: COLORS.textSec },
   statValue: { fontSize: 12, fontWeight: '700', color: COLORS.textMain },
-
   saveButton: { flexDirection: 'row', backgroundColor: COLORS.primaryGreen, padding: 16, borderRadius: 12, justifyContent: 'center', alignItems: 'center', marginTop: 10, marginBottom: 40 },
-  saveButtonText: { color: COLORS.white, fontWeight: 'bold', fontSize: 16, marginLeft: 10 }
-});0
+  saveButtonText: { color: COLORS.white, fontWeight: 'bold', fontSize: 16, marginLeft: 10 },
+
+  // --- ESTILOS DEL MODAL QA-01 ---
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.7)', // Oscurece el fondo
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    width: '85%',
+    backgroundColor: COLORS.white,
+    borderRadius: 20,
+    padding: 25,
+    alignItems: 'center',
+    elevation: 10,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: COLORS.dangerRed,
+    marginTop: 10,
+    textAlign: 'center',
+  },
+  modalDescription: {
+    fontSize: 14,
+    color: COLORS.textMain,
+    marginVertical: 15,
+    textAlign: 'center',
+  },
+  modalButton: {
+    backgroundColor: COLORS.dangerRed,
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 10,
+    width: '100%',
+    alignItems: 'center',
+  },
+  modalButtonText: {
+    color: COLORS.white,
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+});
