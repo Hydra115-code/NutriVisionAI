@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons'; // Agregada para el icono de error
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -5,21 +6,23 @@ import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, Te
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorPassword, setErrorPassword] = useState(false); // Estado para detectar error visual
   const router = useRouter();
 
   const handleLogin = () => {
     // --- VALIDACIÓN DE CAMPOS VACÍOS ---
-  if (email.trim() === '' || password.trim() === '') {
-    Alert.alert(
-      "Campos incompletos", 
-      "Por favor, ingresa tu correo y contraseña para continuar.",
-      [{ text: "Entendido" }]
-    );
-    return; 
-  }
+    if (email.trim() === '' || password.trim() === '') {
+      setErrorPassword(true); // Activa el error visual
+      Alert.alert(
+        "Campos incompletos", 
+        "Por favor, ingresa tu correo y contraseña para continuar.",
+        [{ text: "Entendido" }]
+      );
+      return; 
+    }
 
-  
-  router.replace('/(tabs)');
+    setErrorPassword(false);
+    router.replace('/(tabs)');
   };
 
   return (
@@ -46,18 +49,32 @@ export default function LoginScreen() {
 
           <Text style={styles.label}>Contraseña</Text>
           <TextInput 
-            style={styles.input}
+            style={[
+              styles.input,
+              errorPassword && { borderColor: '#ef4444', borderWidth: 1.5 } // Borde rojo si hay error
+            ]}
             placeholder="********"
             value={password}
-            onChangeText={setPassword}
+            onChangeText={(txt) => {
+              setPassword(txt);
+              if(errorPassword) setErrorPassword(false); // Limpia el error al escribir
+            }}
             secureTextEntry
           />
+
+          {/* --- CORRECCIÓN QA: Icono + Texto para Accesibilidad --- */}
+          {errorPassword && (
+            <View style={styles.errorContainer}>
+              <Ionicons name="alert-circle" size={18} color="#ef4444" />
+              <Text style={styles.errorText}>Contraseña o correo incompletos.</Text>
+            </View>
+          )}
 
           <TouchableOpacity style={styles.forgotPass}>
             <Text style={styles.forgotText}>¿Olvidaste tu contraseña?</Text>
           </TouchableOpacity>
 
-         <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
             <Text style={styles.buttonText}>Iniciar Sesión</Text>
           </TouchableOpacity>
 
@@ -89,6 +106,19 @@ const styles = StyleSheet.create({
     padding: 15,
     marginBottom: 20,
     fontSize: 16,
+  },
+  // --- NUEVOS ESTILOS PARA ERROR ---
+  errorContainer: { 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    marginTop: -15, 
+    marginBottom: 15 
+  },
+  errorText: { 
+    color: '#ef4444', 
+    fontSize: 13, 
+    marginLeft: 5, 
+    fontWeight: '500' 
   },
   forgotPass: { alignSelf: 'flex-end', marginBottom: 30 },
   forgotText: { color: '#00b347', fontWeight: '600' },
