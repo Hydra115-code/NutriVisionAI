@@ -14,6 +14,7 @@ const db = mysql.createConnection({
     database: 'Nutrivision'
 });
 
+
 // PROCESO DE REGISTRO
 app.post('/registro', (req, res) => {
     // Desestructuramos según tus columnas de la tabla USUARIO
