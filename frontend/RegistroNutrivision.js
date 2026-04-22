@@ -10,7 +10,6 @@ export default function RegistroNutrivision() {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    
     const enviarRegistro = async (e) => {
         e.preventDefault();
         try {
