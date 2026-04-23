@@ -11,8 +11,9 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import { useTheme } from '../context/ThemeContext'; // Importar el tema
 
-const COLORS = {
+const LOCAL_COLORS = {
   primaryGreen: '#00b347',
   lightGreen: '#d1f2eb',
   textMain: '#1a2a3a',
@@ -25,6 +26,7 @@ const COLORS = {
 
 export default function RegisterScreen() {
   const router = useRouter();
+  const { colors, isDark } = useTheme(); // Usar colores del tema
   
   // ESTADOS DEL FORMULARIO (Aseguran que el sistema "lea" lo que escribes)
   const [nombre, setNombre] = useState('');
@@ -74,37 +76,39 @@ export default function RegisterScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.bg }]}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         
-        <Text style={styles.title}>Crear Perfil</Text>
-        <Text style={styles.subtitle}>Configura tu salud inteligente</Text>
+        <Text style={[styles.title, { color: colors.textMain }]}>Crear Perfil</Text>
+        <Text style={[styles.subtitle, { color: colors.textSecondary }]}>Configura tu salud inteligente</Text>
 
         <View style={styles.iaContainer}>
             <TouchableOpacity style={styles.iaButton} onPress={() => Alert.alert("IA", "Analizando...")}>
-                <MaterialCommunityIcons name="file-document-edit" size={20} color={COLORS.white} />
+                <MaterialCommunityIcons name="file-document-edit" size={20} color={LOCAL_COLORS.white} />
                 <Text style={styles.iaButtonText}>Rellenar con Diagnóstico</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={[styles.iaButton, { backgroundColor: COLORS.purpleIA }]} onPress={() => Alert.alert("IA", "Escaneando...")}>
-                <MaterialCommunityIcons name="human-male-height" size={20} color={COLORS.white} />
+            <TouchableOpacity style={[styles.iaButton, { backgroundColor: LOCAL_COLORS.purpleIA }]} onPress={() => Alert.alert("IA", "Escaneando...")}>
+                <MaterialCommunityIcons name="human-male-height" size={20} color={LOCAL_COLORS.white} />
                 <Text style={styles.iaButtonText}>Escaneo Corporal IA</Text>
             </TouchableOpacity>
         </View>
 
-        <View style={styles.formCard}>
-          <Text style={styles.label}>Nombre Completo</Text>
+        <View style={[styles.formCard, { backgroundColor: colors.mainCard }]}>
+          <Text style={[styles.label, { color: colors.textMain }]}>Nombre Completo</Text>
           <TextInput 
-            style={styles.input} 
+            style={[styles.input, { backgroundColor: isDark ? '#2d3748' : '#f1f5f9', borderColor: colors.border, color: colors.textMain }]} 
             placeholder="María González" 
+            placeholderTextColor={colors.textSecondary}
             value={nombre}
             onChangeText={setNombre} 
           />
 
-          <Text style={styles.label}>Correo Electrónico</Text>
+          <Text style={[styles.label, { color: colors.textMain }]}>Correo Electrónico</Text>
           <TextInput 
-            style={styles.input} 
+            style={[styles.input, { backgroundColor: isDark ? '#2d3748' : '#f1f5f9', borderColor: colors.border, color: colors.textMain }]} 
             placeholder="correo@ejemplo.com" 
+            placeholderTextColor={colors.textSecondary}
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address" 
@@ -113,10 +117,11 @@ export default function RegisterScreen() {
 
           <View style={styles.row}>
             <View style={{ flex: 1.5, marginRight: 10 }}>
-              <Text style={styles.label}>Fecha de Nacimiento</Text>
+              <Text style={[styles.label, { color: colors.textMain }]}>Fecha de Nacimiento</Text>
               <TextInput 
-                style={styles.input} 
+                style={[styles.input, { backgroundColor: isDark ? '#2d3748' : '#f1f5f9', borderColor: colors.border, color: colors.textMain }]} 
                 placeholder="DD/MM/AAAA" 
+                placeholderTextColor={colors.textSecondary}
                 value={fechaNacimiento}
                 onChangeText={handleDateChange}
                 keyboardType="numeric" 
@@ -124,10 +129,11 @@ export default function RegisterScreen() {
               />
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={styles.label}>Peso (kg)</Text>
+              <Text style={[styles.label, { color: colors.textMain }]}>Peso (kg)</Text>
               <TextInput 
-                style={styles.input} 
+                style={[styles.input, { backgroundColor: isDark ? '#2d3748' : '#f1f5f9', borderColor: colors.border, color: colors.textMain }]} 
                 placeholder="65" 
+                placeholderTextColor={colors.textSecondary}
                 value={peso}
                 onChangeText={setPeso}
                 keyboardType="numeric" 
@@ -135,44 +141,44 @@ export default function RegisterScreen() {
             </View>
           </View>
 
-          <Text style={styles.label}>¿Padeces Diabetes?</Text>
+          <Text style={[styles.label, { color: colors.textMain }]}>¿Padeces Diabetes?</Text>
           <View style={styles.diabetesRow}>
             <TouchableOpacity 
-              style={[styles.radioBtn, tieneDiabetes === 'si' && styles.radioBtnActive]} 
+              style={[styles.radioBtn, tieneDiabetes === 'si' && { borderColor: LOCAL_COLORS.primaryGreen, backgroundColor: isDark ? '#064e3b' : LOCAL_COLORS.lightGreen }]} 
               onPress={() => setTieneDiabetes('si')}
             >
               <MaterialCommunityIcons 
                 name={tieneDiabetes === 'si' ? "radiobox-marked" : "radiobox-blank"} 
                 size={20} 
-                color={tieneDiabetes === 'si' ? COLORS.primaryGreen : COLORS.textSec} 
+                color={tieneDiabetes === 'si' ? LOCAL_COLORS.primaryGreen : colors.textSecondary} 
               />
-              <Text style={styles.radioText}>Sí</Text>
+              <Text style={[styles.radioText, { color: colors.textMain }]}>Sí</Text>
             </TouchableOpacity>
 
             <TouchableOpacity 
-              style={[styles.radioBtn, tieneDiabetes === 'no' && styles.radioBtnActive]} 
+              style={[styles.radioBtn, tieneDiabetes === 'no' && { borderColor: LOCAL_COLORS.primaryGreen, backgroundColor: isDark ? '#064e3b' : LOCAL_COLORS.lightGreen }]} 
               onPress={() => { setTieneDiabetes('no'); setTipoDiabetes(''); }}
             >
               <MaterialCommunityIcons 
                 name={tieneDiabetes === 'no' ? "radiobox-marked" : "radiobox-blank"} 
                 size={20} 
-                color={tieneDiabetes === 'no' ? COLORS.primaryGreen : COLORS.textSec} 
+                color={tieneDiabetes === 'no' ? LOCAL_COLORS.primaryGreen : colors.textSecondary} 
               />
-              <Text style={styles.radioText}>No</Text>
+              <Text style={[styles.radioText, { color: colors.textMain }]}>No</Text>
             </TouchableOpacity>
           </View>
 
           {tieneDiabetes === 'si' && (
-            <View style={styles.tipoContainer}>
-              <Text style={styles.label}>Selecciona el Tipo</Text>
+            <View style={[styles.tipoContainer, { backgroundColor: isDark ? '#1a202c' : '#f8fafc', borderColor: colors.border }]}>
+              <Text style={[styles.label, { color: colors.textMain, marginTop: 0 }]}>Selecciona el Tipo</Text>
               <View style={styles.gridTipos}>
                 {['Tipo 1', 'Tipo 2', 'Gestacional', 'Pre.Diabetes'].map((tipo) => (
                   <TouchableOpacity 
                     key={tipo} 
-                    style={[styles.tipoTag, tipoDiabetes === tipo && styles.tipoTagActive]} 
+                    style={[styles.tipoTag, { backgroundColor: isDark ? '#2d3748' : LOCAL_COLORS.white, borderColor: colors.border }, tipoDiabetes === tipo && { backgroundColor: LOCAL_COLORS.primaryGreen, borderColor: LOCAL_COLORS.primaryGreen }]} 
                     onPress={() => setTipoDiabetes(tipo)}
                   >
-                    <Text style={[styles.tipoTagText, tipoDiabetes === tipo && styles.tipoTagTextActive]}>{tipo}</Text>
+                    <Text style={[styles.tipoTagText, { color: colors.textSecondary }, tipoDiabetes === tipo && styles.tipoTagTextActive]}>{tipo}</Text>
                   </TouchableOpacity>
                 ))}
               </View>
@@ -186,9 +192,9 @@ export default function RegisterScreen() {
             <MaterialCommunityIcons 
               name={aceptaTerminos ? "checkbox-marked" : "checkbox-blank-outline"} 
               size={24} 
-              color={aceptaTerminos ? COLORS.primaryGreen : COLORS.textSec} 
+              color={aceptaTerminos ? LOCAL_COLORS.primaryGreen : colors.textSecondary} 
             />
-            <Text style={styles.termsText}>
+            <Text style={[styles.termsText, { color: colors.textSecondary }]}>
               Acepto los <Text style={styles.termsLink}>Términos de Uso</Text> y el manejo de mis datos de salud.
             </Text>
           </TouchableOpacity>
@@ -205,32 +211,29 @@ export default function RegisterScreen() {
   );
 }
 
-// ... (los estilos se mantienen iguales)
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f8f9fa' },
+  container: { flex: 1 },
   scrollContent: { padding: 25 },
-  title: { fontSize: 28, fontWeight: 'bold', color: COLORS.textMain },
-  subtitle: { fontSize: 16, color: COLORS.textSec, marginBottom: 20 },
+  title: { fontSize: 28, fontWeight: 'bold' },
+  subtitle: { fontSize: 16, marginBottom: 20 },
   iaContainer: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 },
-  iaButton: { flex: 0.48, backgroundColor: COLORS.accentBlue, padding: 12, borderRadius: 12, alignItems: 'center', justifyContent: 'center', elevation: 2 },
-  iaButtonText: { color: COLORS.white, fontWeight: 'bold', fontSize: 11, marginTop: 5, textAlign: 'center' },
-  formCard: { backgroundColor: COLORS.white, borderRadius: 20, padding: 20, elevation: 3 },
-  label: { fontSize: 12, fontWeight: '600', color: COLORS.textMain, marginBottom: 6, marginTop: 12 },
-  input: { backgroundColor: '#f1f5f9', padding: 10, borderRadius: 8, fontSize: 14, borderWidth: 1, borderColor: COLORS.border },
+  iaButton: { flex: 0.48, backgroundColor: LOCAL_COLORS.accentBlue, padding: 12, borderRadius: 12, alignItems: 'center', justifyContent: 'center', elevation: 2 },
+  iaButtonText: { color: LOCAL_COLORS.white, fontWeight: 'bold', fontSize: 11, marginTop: 5, textAlign: 'center' },
+  formCard: { borderRadius: 20, padding: 20, elevation: 3 },
+  label: { fontSize: 12, fontWeight: '600', marginBottom: 6, marginTop: 12 },
+  input: { padding: 10, borderRadius: 8, fontSize: 14, borderWidth: 1 },
   row: { flexDirection: 'row', justifyContent: 'space-between' },
   diabetesRow: { flexDirection: 'row', marginTop: 5 },
   radioBtn: { flexDirection: 'row', alignItems: 'center', marginRight: 20, padding: 8, borderRadius: 8, borderWidth: 1, borderColor: 'transparent' },
-  radioBtnActive: { borderColor: COLORS.primaryGreen, backgroundColor: COLORS.lightGreen },
   radioText: { marginLeft: 6, fontSize: 14, fontWeight: '500' },
-  tipoContainer: { marginTop: 15, backgroundColor: '#f8fafc', padding: 12, borderRadius: 12, borderWidth: 1, borderColor: COLORS.border },
+  tipoContainer: { marginTop: 15, padding: 12, borderRadius: 12, borderWidth: 1 },
   gridTipos: { flexDirection: 'row', flexWrap: 'wrap', marginTop: 5 },
-  tipoTag: { backgroundColor: COLORS.white, borderWidth: 1, borderColor: COLORS.border, paddingVertical: 6, paddingHorizontal: 12, borderRadius: 15, marginRight: 6, marginBottom: 6 },
-  tipoTagActive: { backgroundColor: COLORS.primaryGreen, borderColor: COLORS.primaryGreen },
-  tipoTagText: { color: COLORS.textSec, fontSize: 12 },
-  tipoTagTextActive: { color: COLORS.white, fontWeight: 'bold' },
+  tipoTag: { borderWidth: 1, paddingVertical: 6, paddingHorizontal: 12, borderRadius: 15, marginRight: 6, marginBottom: 6 },
+  tipoTagText: { fontSize: 12 },
+  tipoTagTextActive: { color: '#fff', fontWeight: 'bold' },
   termsContainer: { flexDirection: 'row', alignItems: 'center', marginTop: 25 },
-  termsText: { flex: 1, marginLeft: 10, fontSize: 12, color: COLORS.textSec },
-  termsLink: { color: COLORS.primaryGreen, fontWeight: 'bold', textDecorationLine: 'underline' },
-  mainButton: { backgroundColor: COLORS.primaryGreen, padding: 16, borderRadius: 12, alignItems: 'center', marginTop: 20 },
-  mainButtonText: { color: COLORS.white, fontWeight: 'bold', fontSize: 16 }
+  termsText: { flex: 1, marginLeft: 10, fontSize: 12 },
+  termsLink: { color: '#00b347', fontWeight: 'bold', textDecorationLine: 'underline' },
+  mainButton: { backgroundColor: '#00b347', padding: 16, borderRadius: 12, alignItems: 'center', marginTop: 20 },
+  mainButtonText: { color: '#fff', fontWeight: 'bold', fontSize: 16 }
 });

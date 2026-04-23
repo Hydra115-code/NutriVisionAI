@@ -11,21 +11,21 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import { useTheme } from '../../context/ThemeContext'; // Importar el tema
 
-const COLORS = {
+// Mantenemos tus constantes originales para elementos que no cambian (como alertas)
+const LOCAL_COLORS = {
   primaryGreen: '#00b347',
   lightGreen: '#d1f2eb',
   dangerRed: '#ef4444',
   warningBg: '#fff1f2',
-  textMain: '#1a2a3a',
-  textSec: '#64748b',
-  white: '#fff',
-  bgLight: '#f8f9fa',
   accentBlue: '#3b82f6',
-  orangeFats: '#f59e0b',
+  white: '#fff',
 };
 
 export default function HomeScreen() {
+  const { colors, isDark } = useTheme(); // Usar colores del tema
+  
   // Estado para controlar la visibilidad del Pop-up (QA-01)
   const [modalVisible, setModalVisible] = useState(true);
 
@@ -60,7 +60,7 @@ export default function HomeScreen() {
   ];
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.bg }]}>
 
       {/* --- IMPLEMENTACIÓN POP-UP (MODAL) QA-01 --- */}
       <Modal
@@ -70,10 +70,10 @@ export default function HomeScreen() {
         onRequestClose={() => setModalVisible(false)}
       >
         <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Ionicons name="warning" size={50} color={COLORS.dangerRed} />
+          <View style={[styles.modalContent, { backgroundColor: colors.mainCard }]}>
+            <Ionicons name="warning" size={50} color={LOCAL_COLORS.dangerRed} />
             <Text style={styles.modalTitle}>¡ADVERTENCIA CRÍTICA!</Text>
-            <Text style={styles.modalDescription}>
+            <Text style={[styles.modalDescription, { color: colors.textMain }]}>
               Se detectó un nivel de azúcar alto (15.2 g).
             </Text>
             <TouchableOpacity
@@ -89,8 +89,8 @@ export default function HomeScreen() {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         
         {/* Encabezado */}
-        <View style={styles.topHeader}>
-          <Text style={styles.topHeaderText}>Escaneo</Text>
+        <View style={[styles.topHeader, { backgroundColor: isDark ? '#1e293b' : LOCAL_COLORS.lightGreen }]}>
+          <Text style={[styles.topHeaderText, { color: colors.textMain }]}>Escaneo</Text>
         </View>
 
         {/* Sección Cámara */}
@@ -103,60 +103,72 @@ export default function HomeScreen() {
             style={styles.foodImage} 
           />
           <TouchableOpacity style={styles.scanButton} onPress={handleScan}>
-            <Ionicons name="camera" size={24} color={COLORS.white} />
+            <Ionicons name="camera" size={24} color={LOCAL_COLORS.white} />
             <Text style={styles.scanButtonText}>Tomar foto y analizar</Text>
           </TouchableOpacity>
         </View>
 
         {/* Alerta de Azúcar */}
-        <View style={styles.alertCard}>
-          <Ionicons name="warning-outline" size={24} color={COLORS.dangerRed} />
+        <View style={[styles.alertCard, { backgroundColor: isDark ? '#2c1a1a' : LOCAL_COLORS.warningBg }]}>
+          <Ionicons name="warning-outline" size={24} color={LOCAL_COLORS.dangerRed} />
           <View style={styles.alertContent}>
             <Text style={styles.alertTitle}>ALERTA: Nivel de azúcar ALTO</Text>
-            <Text style={styles.alertDescription}>
+            <Text style={[styles.alertDescription, { color: colors.textMain }]}>
               Se detectó un nivel elevado de azúcar. Consumir con precaución.
             </Text>
           </View>
         </View>
 
         {/* Desglose Total */}
-        <View style={styles.whiteCard}>
-          <Text style={styles.sectionTitle}>Desglose Total</Text>
+        <View style={[styles.whiteCard, { backgroundColor: colors.mainCard }]}>
+          <Text style={[styles.sectionTitle, { color: colors.textMain }]}>Desglose Total</Text>
           <View style={styles.grid}>
-            <View style={styles.gridItem}><Text style={styles.gridLabel}>Calorías</Text><Text style={[styles.gridValue, {color: COLORS.primaryGreen}]}>295 kcal</Text></View>
-            <View style={styles.gridItem}><Text style={styles.gridLabel}>Carbohidratos</Text><Text style={[styles.gridValue, {color: COLORS.accentBlue}]}>28 g</Text></View>
-            <View style={styles.gridItem}><Text style={styles.gridLabel}>Azúcares</Text><Text style={[styles.gridValue, {color: COLORS.dangerRed}]}>15.2 g</Text></View>
-            <View style={styles.gridItem}><Text style={styles.gridLabel}>Proteínas</Text><Text style={[styles.gridValue, {color: '#a855f7'}]}>33.7 g</Text></View>
+            <View style={[styles.gridItem, { backgroundColor: isDark ? '#2d3748' : '#fcfcfc', borderColor: colors.border }]}>
+                <Text style={[styles.gridLabel, { color: colors.textSecondary }]}>Calorías</Text>
+                <Text style={[styles.gridValue, {color: LOCAL_COLORS.primaryGreen}]}>295 kcal</Text>
+            </View>
+            <View style={[styles.gridItem, { backgroundColor: isDark ? '#2d3748' : '#fcfcfc', borderColor: colors.border }]}>
+                <Text style={[styles.gridLabel, { color: colors.textSecondary }]}>Carbohidratos</Text>
+                <Text style={[styles.gridValue, {color: LOCAL_COLORS.accentBlue}]}>28 g</Text>
+            </View>
+            <View style={[styles.gridItem, { backgroundColor: isDark ? '#2d3748' : '#fcfcfc', borderColor: colors.border }]}>
+                <Text style={[styles.gridLabel, { color: colors.textSecondary }]}>Azúcares</Text>
+                <Text style={[styles.gridValue, {color: LOCAL_COLORS.dangerRed}]}>15.2 g</Text>
+            </View>
+            <View style={[styles.gridItem, { backgroundColor: isDark ? '#2d3748' : '#fcfcfc', borderColor: colors.border }]}>
+                <Text style={[styles.gridLabel, { color: colors.textSecondary }]}>Proteínas</Text>
+                <Text style={[styles.gridValue, {color: '#a855f7'}]}>33.7 g</Text>
+            </View>
           </View>
         </View>
 
         {/* Alimentos Detectados */}
-        <View style={styles.whiteCard}>
-          <Text style={styles.sectionTitle}>Alimentos detectados</Text>
+        <View style={[styles.whiteCard, { backgroundColor: colors.mainCard }]}>
+          <Text style={[styles.sectionTitle, { color: colors.textMain }]}>Alimentos detectados</Text>
           
           {alimentosDetectados.map((item, index) => (
-            <View key={item.id} style={[styles.itemDetail, index === 0 ? { borderTopWidth: 0 } : null]}>
+            <View key={item.id} style={[styles.itemDetail, { borderTopColor: colors.border }, index === 0 ? { borderTopWidth: 0 } : null]}>
               <View style={styles.itemTitleRow}>
                 <View style={styles.idBox}><Text style={styles.idText}>{item.id}</Text></View>
-                <Text style={styles.itemName}>{item.nombre}</Text>
+                <Text style={[styles.itemName, { color: colors.textMain }]}>{item.nombre}</Text>
               </View>
               
               <View style={styles.statsRow}>
                 <View style={styles.statBox}>
-                  <Text style={styles.statLabel}>Calorías</Text>
-                  <Text style={styles.statValue}>{item.calorias}</Text>
+                  <Text style={[styles.statLabel, { color: colors.textSecondary }]}>Calorías</Text>
+                  <Text style={[styles.statValue, { color: colors.textMain }]}>{item.calorias}</Text>
                 </View>
                 <View style={styles.statBox}>
-                  <Text style={styles.statLabel}>Proteínas</Text>
-                  <Text style={styles.statValue}>{item.proteinas}</Text>
+                  <Text style={[styles.statLabel, { color: colors.textSecondary }]}>Proteínas</Text>
+                  <Text style={[styles.statValue, { color: colors.textMain }]}>{item.proteinas}</Text>
                 </View>
                 <View style={styles.statBox}>
-                  <Text style={styles.statLabel}>Grasas</Text>
-                  <Text style={styles.statValue}>{item.grasas}</Text>
+                  <Text style={[styles.statLabel, { color: colors.textSecondary }]}>Grasas</Text>
+                  <Text style={[styles.statValue, { color: colors.textMain }]}>{item.grasas}</Text>
                 </View>
                 <View style={styles.statBox}>
-                  <Text style={styles.statLabel}>Azúcares</Text>
-                  <Text style={[styles.statValue, item.alertaAzucar ? {color: COLORS.dangerRed} : null]}>
+                  <Text style={[styles.statLabel, { color: colors.textSecondary }]}>Azúcares</Text>
+                  <Text style={[styles.statValue, { color: colors.textMain }, item.alertaAzucar ? {color: LOCAL_COLORS.dangerRed} : null]}>
                     {item.azucares}
                   </Text>
                 </View>
@@ -167,7 +179,7 @@ export default function HomeScreen() {
 
         {/* Botón Guardar */}
         <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-          <Ionicons name="checkmark-circle" size={24} color={COLORS.white} />
+          <Ionicons name="checkmark-circle" size={24} color={LOCAL_COLORS.white} />
           <Text style={styles.saveButtonText}>Guardar registro diario</Text>
         </TouchableOpacity>
 
@@ -177,48 +189,47 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: COLORS.bgLight },
+  container: { flex: 1 },
   scrollContent: { padding: 20 },
-  topHeader: { backgroundColor: COLORS.lightGreen, padding: 12, borderRadius: 8, alignItems: 'center', marginBottom: 15 },
-  topHeaderText: { color: COLORS.textMain, fontWeight: 'bold' },
-  headerSection: { backgroundColor: COLORS.primaryGreen, borderRadius: 15, overflow: 'hidden', marginBottom: 20 },
+  topHeader: { padding: 12, borderRadius: 8, alignItems: 'center', marginBottom: 15 },
+  topHeaderText: { fontWeight: 'bold' },
+  headerSection: { backgroundColor: LOCAL_COLORS.primaryGreen, borderRadius: 15, overflow: 'hidden', marginBottom: 20 },
   subHeaderGreen: { padding: 10, alignItems: 'center' },
-  subHeaderText: { color: COLORS.white, fontWeight: '600' },
+  subHeaderText: { color: LOCAL_COLORS.white, fontWeight: '600' },
   foodImage: { width: '100%', height: 160 },
-  scanButton: { flexDirection: 'row', backgroundColor: COLORS.primaryGreen, padding: 15, justifyContent: 'center', alignItems: 'center' },
-  scanButtonText: { color: COLORS.white, fontWeight: 'bold', marginLeft: 10 },
-  alertCard: { flexDirection: 'row', backgroundColor: COLORS.warningBg, borderWidth: 1, borderColor: COLORS.dangerRed, borderRadius: 10, padding: 15, marginBottom: 20, borderLeftWidth: 5 },
+  scanButton: { flexDirection: 'row', backgroundColor: LOCAL_COLORS.primaryGreen, padding: 15, justifyContent: 'center', alignItems: 'center' },
+  scanButtonText: { color: LOCAL_COLORS.white, fontWeight: 'bold', marginLeft: 10 },
+  alertCard: { flexDirection: 'row', borderWidth: 1, borderColor: LOCAL_COLORS.dangerRed, borderRadius: 10, padding: 15, marginBottom: 20, borderLeftWidth: 5 },
   alertContent: { marginLeft: 10, flex: 1 },
-  alertTitle: { color: COLORS.dangerRed, fontWeight: 'bold', fontSize: 13 },
-  alertDescription: { color: COLORS.textMain, fontSize: 12 },
-  whiteCard: { backgroundColor: COLORS.white, borderRadius: 15, padding: 15, marginBottom: 20, elevation: 3, shadowColor: '#000', shadowOpacity: 0.1, shadowRadius: 5 },
-  sectionTitle: { fontSize: 16, fontWeight: 'bold', color: COLORS.textMain, marginBottom: 15 },
+  alertTitle: { color: LOCAL_COLORS.dangerRed, fontWeight: 'bold', fontSize: 13 },
+  alertDescription: { fontSize: 12 },
+  whiteCard: { borderRadius: 15, padding: 15, marginBottom: 20, elevation: 3, shadowColor: '#000', shadowOpacity: 0.1, shadowRadius: 5 },
+  sectionTitle: { fontSize: 16, fontWeight: 'bold', marginBottom: 15 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' },
-  gridItem: { width: '48%', padding: 10, borderRadius: 8, marginBottom: 10, backgroundColor: '#fcfcfc', borderWidth: 1, borderColor: '#f0f0f0' },
-  gridLabel: { fontSize: 12, color: COLORS.textSec },
+  gridItem: { width: '48%', padding: 10, borderRadius: 8, marginBottom: 10, borderWidth: 1 },
+  gridLabel: { fontSize: 12 },
   gridValue: { fontSize: 16, fontWeight: 'bold', marginTop: 4 },
-  itemDetail: { borderTopWidth: 1, borderTopColor: '#f0f0f0', paddingTop: 15, marginTop: 10 },
+  itemDetail: { borderTopWidth: 1, paddingTop: 15, marginTop: 10 },
   itemTitleRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 10 },
-  idBox: { backgroundColor: COLORS.accentBlue, width: 22, height: 22, borderRadius: 5, justifyContent: 'center', alignItems: 'center', marginRight: 10 },
-  idText: { color: COLORS.white, fontWeight: 'bold', fontSize: 12 },
-  itemName: { fontSize: 15, fontWeight: 'bold', color: COLORS.textMain },
+  idBox: { backgroundColor: LOCAL_COLORS.accentBlue, width: 22, height: 22, borderRadius: 5, justifyContent: 'center', alignItems: 'center', marginRight: 10 },
+  idText: { color: LOCAL_COLORS.white, fontWeight: 'bold', fontSize: 12 },
+  itemName: { fontSize: 15, fontWeight: 'bold' },
   statsRow: { flexDirection: 'row', justifyContent: 'space-between' },
   statBox: { flex: 1 },
-  statLabel: { fontSize: 10, color: COLORS.textSec },
-  statValue: { fontSize: 12, fontWeight: '700', color: COLORS.textMain },
-  saveButton: { flexDirection: 'row', backgroundColor: COLORS.primaryGreen, padding: 16, borderRadius: 12, justifyContent: 'center', alignItems: 'center', marginTop: 10, marginBottom: 40 },
-  saveButtonText: { color: COLORS.white, fontWeight: 'bold', fontSize: 16, marginLeft: 10 },
+  statLabel: { fontSize: 10 },
+  statValue: { fontSize: 12, fontWeight: '700' },
+  saveButton: { flexDirection: 'row', backgroundColor: LOCAL_COLORS.primaryGreen, padding: 16, borderRadius: 12, justifyContent: 'center', alignItems: 'center', marginTop: 10, marginBottom: 40 },
+  saveButtonText: { color: LOCAL_COLORS.white, fontWeight: 'bold', fontSize: 16, marginLeft: 10 },
 
   // --- ESTILOS DEL MODAL QA-01 ---
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.7)', // Oscurece el fondo
+    backgroundColor: 'rgba(0,0,0,0.7)',
     justifyContent: 'center',
     alignItems: 'center',
   },
   modalContent: {
     width: '85%',
-    backgroundColor: COLORS.white,
     borderRadius: 20,
     padding: 25,
     alignItems: 'center',
@@ -227,18 +238,17 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: COLORS.dangerRed,
+    color: LOCAL_COLORS.dangerRed,
     marginTop: 10,
     textAlign: 'center',
   },
   modalDescription: {
     fontSize: 14,
-    color: COLORS.textMain,
     marginVertical: 15,
     textAlign: 'center',
   },
   modalButton: {
-    backgroundColor: COLORS.dangerRed,
+    backgroundColor: LOCAL_COLORS.dangerRed,
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 10,
@@ -246,7 +256,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalButtonText: {
-    color: COLORS.white,
+    color: LOCAL_COLORS.white,
     fontWeight: 'bold',
     fontSize: 16,
   },

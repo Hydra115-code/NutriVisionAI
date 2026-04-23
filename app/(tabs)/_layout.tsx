@@ -2,22 +2,29 @@ import { Tabs } from 'expo-router';
 import React from 'react';
 
 import { HapticTab } from '@/components/haptic-tab';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { COLORS as GLOBAL_COLORS, useTheme } from '../../context/ThemeContext';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const { colors, isDark } = useTheme();
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        // Mantenemos tu configuración original
+        tabBarActiveTintColor: GLOBAL_COLORS.primaryGreen,
         headerShown: false,
         tabBarButton: HapticTab,
+        
+        // Solo cambiamos los colores necesarios sin forzar alturas
+        tabBarInactiveTintColor: isDark ? '#8e8e93' : '#999',
+        tabBarStyle: {
+          backgroundColor: colors.mainCard,
+          borderTopColor: colors.border,
+          // Eliminamos el 'height' y 'padding' manuales que causan el desplazamiento
+        },
       }}>
       
-      {/* Home */}
       <Tabs.Screen
         name="index" 
         options={{
@@ -28,7 +35,6 @@ export default function TabLayout() {
         }}
       />
 
-      {/* Gráficas/Progreso */}
       <Tabs.Screen
         name="explore"
         options={{
@@ -39,7 +45,6 @@ export default function TabLayout() {
         }}
       />
 
-      {/* Perfil */}
       <Tabs.Screen
         name="profile"
         options={{
