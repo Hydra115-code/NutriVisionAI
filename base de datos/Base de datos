@@ -1,0 +1,121 @@
+Create Database Nutrivision;
+Use Nutrivision;
+
+-- 1. TABLA USUARIO
+CREATE TABLE USUARIO (
+  usuario_id INT NOT NULL AUTO_INCREMENT,
+  nombre VARCHAR(100) NOT NULL,
+  correo VARCHAR(150) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,
+  creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  actualizado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  edad INT,
+  sexo VARCHAR(20),
+  altura_cm FLOAT,
+  peso_kg FLOAT,
+  objetivo VARCHAR(100),
+  actividad_fisica VARCHAR(100),
+  alergias TEXT,
+  restricciones TEXT,
+  condiciones_salud TEXT,
+  PRIMARY KEY (usuario_id)
+);
+
+-- 2. TABLA FOTO_COMIDA
+CREATE TABLE FOTO_COMIDA (
+  foto_id INT NOT NULL AUTO_INCREMENT,
+  usuario_id INT,
+  url TEXT NOT NULL,
+  formato VARCHAR(10),
+  resolucion VARCHAR(20),
+  tomada_en DATETIME,
+  anotaciones TEXT,
+  estado_revision VARCHAR(50),
+  revisado_por VARCHAR(100),
+  revisado_en DATETIME,
+  comentarios_revision TEXT,
+  PRIMARY KEY (foto_id),
+  FOREIGN KEY (usuario_id) REFERENCES USUARIO(usuario_id)
+);
+
+-- 3. TABLA REGISTRO_COMIDA
+CREATE TABLE REGISTRO_COMIDA (
+  detectado_id INT NOT NULL AUTO_INCREMENT,
+  foto_id INT,
+  usuario_id INT,
+  etiqueta_general VARCHAR(100),
+  categoria_alimento VARCHAR(100),
+  confianza FLOAT, -- Cambiado a FLOAT para valores decimales de probabilidad
+  cantidad_estimada FLOAT,
+  unidad VARCHAR(50),
+  notas TEXT,
+  creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  actualizado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (detectado_id),
+  FOREIGN KEY (foto_id) REFERENCES FOTO_COMIDA(foto_id),
+  FOREIGN KEY (usuario_id) REFERENCES USUARIO(usuario_id)
+);
+
+-- 4. TABLA PLATILLO_ALIMENTO
+CREATE TABLE PLATILLO_ALIMENTO (
+  platillo_id INT NOT NULL AUTO_INCREMENT,
+  detectado_id INT,
+  nombre_platillo VARCHAR(150),
+  porcion FLOAT,
+  unidad_porcion VARCHAR(50),
+  energia_kcal DECIMAL(10,2),
+  proteina_g DECIMAL(10,2),
+  carbohidratos_g DECIMAL(10,2),
+  grasa_total_g DECIMAL(10,2),
+  fibra_g DECIMAL(10,2),
+  azucar_g DECIMAL(10,2),
+  sodio_mg DECIMAL(10,2),
+  potasio_mg DECIMAL(10,2),
+  calcio_mg DECIMAL(10,2),
+  hierro_mg DECIMAL(10,2),
+  PRIMARY KEY (platillo_id),
+  FOREIGN KEY (detectado_id) REFERENCES REGISTRO_COMIDA(detectado_id)
+);
+
+-- 5. TABLA USUARIO_CONDICION
+CREATE TABLE USUARIO_CONDICION (
+  usuario_condicion_id INT NOT NULL AUTO_INCREMENT,
+  usuario_id INT,
+  condicion_id INT, -- Nota: Deberías tener una tabla MAESTRA de condiciones si este ID existe
+  nombre_condicion VARCHAR(150),
+  severidad VARCHAR(50),
+  tratamiento TEXT,
+  diagnosticado_en DATE,
+  estado VARCHAR(50),
+  PRIMARY KEY (usuario_condicion_id),
+  FOREIGN KEY (usuario_id) REFERENCES USUARIO(usuario_id)
+);
+
+-- 6. TABLA RECOMENDACION
+CREATE TABLE RECOMENDACION (
+  recomendacion_id INT NOT NULL AUTO_INCREMENT,
+  usuario_id INT,
+  tipo VARCHAR(50),
+  titulo VARCHAR(200),
+  detalle TEXT,
+  creada_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  vigente_hasta DATE,
+  PRIMARY KEY (recomendacion_id),
+  FOREIGN KEY (usuario_id) REFERENCES USUARIO(usuario_id)
+);
+
+-- 7. TABLA PLATILLO_GUARDADO
+CREATE TABLE PLATILLO_GUARDADO (
+  guardado_id INT NOT NULL AUTO_INCREMENT,
+  usuario_id INT,
+  platillo_id INT,
+  nombre VARCHAR(150),
+  descripcion TEXT,
+  creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  corregido_en TIMESTAMP NULL,
+  motivo_correccion VARCHAR(255),
+  detalles_correccion TEXT,
+  PRIMARY KEY (guardado_id),
+  FOREIGN KEY (usuario_id) REFERENCES USUARIO(usuario_id),
+  FOREIGN KEY (platillo_id) REFERENCES PLATILLO_ALIMENTO(platillo_id)
+);
