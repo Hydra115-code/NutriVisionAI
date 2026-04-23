@@ -13,12 +13,15 @@ export default function RegistroNutrivision() {
     const enviarRegistro = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch('http://localhost:5000/registro', {
+            // AHORA (Funcionará en el celular conectado a tu red)
+                const res = await fetch('http://192.168.137.45:5000/registro', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(form)
             });
             const data = await res.json();
+            
+
             
             // RESULTADO VISIBLE (Requerimiento de la imagen)
             if (res.ok) {
