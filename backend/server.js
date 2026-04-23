@@ -9,11 +9,19 @@ app.use(express.json());
 // CONFIGURACIÓN DE CONEXIÓN (Acoplado a Nutrivision)
 const db = mysql.createConnection({
     host: 'localhost',
-    user: 'NutriVision',      // Usuario de MySQL
+    user: 'NutriVisioni',      // Usuario de MySQL
     password: '',      // Contraseña
     database: 'Nutrivision'
 });
 
+// CAMBIO EN EL LISTEN:
+// Es mejor especificar '0.0.0.0' para decirle al servidor que escuche 
+// a cualquier dispositivo de la red, no solo a la PC.
+app.listen(5000, '0.0.0.0', () => {
+    console.log("Servidor Nutrivision corriendo en:");
+    console.log("Local: http://localhost:5000");
+    console.log("Red: http://192.168.137.45:5000"); // Tu IP que encontramos
+});
 
 // PROCESO DE REGISTRO
 app.post('/registro', (req, res) => {

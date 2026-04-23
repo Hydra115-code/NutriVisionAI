@@ -12,7 +12,7 @@ export default function AppNutrivision() {
     return <RegistroNutrivision alFinalizar={() => setRegistrado(true)} />;
 }
 
-// --- TU NUEVO COMPONENTE DE CÁMARA ---
+// --- NUEVO COMPONENTE DE CÁMARA ---
 function AnalizadorComida() {
     const [fotoComida, setFotoComida] = useState(null);
 
