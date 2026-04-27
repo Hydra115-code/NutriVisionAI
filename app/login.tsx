@@ -1,40 +1,94 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { COLORS as GLOBAL_COLORS, useTheme } from '../context/ThemeContext'; // Importar el tema
+import { ActivityIndicator, Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { COLORS as GLOBAL_COLORS, useTheme } from '../context/ThemeContext';
+import { useUser } from '../context/UserContext';
+
+import { API_URL } from '../constants/config';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorPassword, setErrorPassword] = useState(false);
-  
-  // --- NUEVOS ESTADOS PARA EL FOCO (QA-IN-03) ---
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
-  
-  const router = useRouter();
-  const { colors, isDark } = useTheme(); // Usar colores del tema
+  const [isLoading, setIsLoading] = useState(false);
+  const [mostrarPassword, setMostrarPassword] = useState(false);
 
-  const handleLogin = () => {
+  const { setUsuario } = useUser();
+  const router = useRouter();
+  const { colors, isDark } = useTheme();
+
+  const handleLogin = async () => {
     if (email.trim() === '' || password.trim() === '') {
       setErrorPassword(true);
-      Alert.alert(
-        "Campos incompletos", 
-        "Por favor, ingresa tu correo y contraseña para continuar.",
-        [{ text: "Entendido" }]
-      );
-      return; 
+      Alert.alert("Campos incompletos", "Por favor, ingresa tu correo y contraseña.", [{ text: "Entendido" }]);
+      return;
     }
     setErrorPassword(false);
-    router.replace('/(tabs)');
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${API_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ correo: email.trim(), password })
+      });
+      const data = await response.json();
+      if (response.ok && data.ok) {
+        setUsuario(data.usuario);
+        router.replace('/(tabs)');
+      } else {
+        setErrorPassword(true);
+        Alert.alert("Error", data.mensaje || "Correo o contraseña incorrectos.");
+      }
+    } catch (error) {
+      Alert.alert("Error de conexión", "No se pudo conectar al servidor.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleForgotPassword = () => {
+    if (email.trim() === '') {
+      Alert.alert(
+        "Recuperar contraseña",
+        "Ingresa tu correo electrónico en el campo de arriba y vuelve a presionar este botón.",
+        [{ text: "Entendido" }]
+      );
+      return;
+    }
+
+    Alert.alert(
+      "Recuperar contraseña",
+      `Se enviará un correo de recuperación a:\n\n${email.trim()}\n\n¿Deseas continuar?`,
+      [
+        { text: "Cancelar", style: "cancel" },
+        {
+          text: "Enviar",
+          onPress: async () => {
+            try {
+              const response = await fetch(`${API_URL}/api/auth/recuperar-password`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ correo: email.trim() })
+              });
+              const data = await response.json();
+              Alert.alert(
+                data.ok ? "✅ Correo enviado" : "Error",
+                data.mensaje
+              );
+            } catch {
+              Alert.alert("Error", "No se pudo conectar al servidor.");
+            }
+          }
+        }
+      ]
+    );
   };
 
   return (
-    <KeyboardAvoidingView 
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
-      style={[styles.container, { backgroundColor: colors.bg }]}
-    >
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={[styles.container, { backgroundColor: colors.bg }]}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.header}>
           <Text style={[styles.logo, { color: GLOBAL_COLORS.primaryGreen }]}>NutriVision AI</Text>
@@ -43,16 +97,8 @@ export default function LoginScreen() {
 
         <View style={styles.form}>
           <Text style={[styles.label, { color: colors.textMain }]}>Correo Electrónico</Text>
-          <TextInput 
-            style={[
-              styles.input,
-              { 
-                backgroundColor: isDark ? '#1e1e1e' : '#f9f9f9',
-                borderColor: isDark ? '#333' : '#eee',
-                color: colors.textMain
-              },
-              isEmailFocused && styles.inputFocused // Aplica borde verde si está seleccionado
-            ]}
+          <TextInput
+            style={[styles.input, { backgroundColor: isDark ? '#1e1e1e' : '#f9f9f9', borderColor: isDark ? '#333' : '#eee', color: colors.textMain }, isEmailFocused && styles.inputFocused]}
             placeholder="ejemplo@correo.com"
             placeholderTextColor={colors.textSecondary}
             value={email}
@@ -64,28 +110,27 @@ export default function LoginScreen() {
           />
 
           <Text style={[styles.label, { color: colors.textMain }]}>Contraseña</Text>
-          <TextInput 
-            style={[
-              styles.input,
-              { 
-                backgroundColor: isDark ? '#1e1e1e' : '#f9f9f9',
-                borderColor: isDark ? '#333' : '#eee',
-                color: colors.textMain
-              },
-              isPasswordFocused && styles.inputFocused, // Borde verde
-              errorPassword && { borderColor: '#ef4444', borderWidth: 2 } // Prioridad al rojo si hay error
-            ]}
-            placeholder="********"
-            placeholderTextColor={colors.textSecondary}
-            value={password}
-            onChangeText={(txt) => {
-              setPassword(txt);
-              if(errorPassword) setErrorPassword(false);
-            }}
-            secureTextEntry
-            onFocus={() => setIsPasswordFocused(true)}
-            onBlur={() => setIsPasswordFocused(false)}
-          />
+          {/* Wrapper para input + ojo */}
+          <View style={[
+            styles.passwordWrapper,
+            { backgroundColor: isDark ? '#1e1e1e' : '#f9f9f9', borderColor: isDark ? '#333' : '#eee' },
+            isPasswordFocused && styles.inputFocused,
+            errorPassword && { borderColor: '#ef4444', borderWidth: 2 }
+          ]}>
+            <TextInput
+              style={[styles.passwordInput, { color: colors.textMain }]}
+              placeholder="********"
+              placeholderTextColor={colors.textSecondary}
+              value={password}
+              onChangeText={(txt) => { setPassword(txt); if (errorPassword) setErrorPassword(false); }}
+              secureTextEntry={!mostrarPassword}
+              onFocus={() => setIsPasswordFocused(true)}
+              onBlur={() => setIsPasswordFocused(false)}
+            />
+            <TouchableOpacity onPress={() => setMostrarPassword(!mostrarPassword)} style={styles.eyeButton}>
+              <Ionicons name={mostrarPassword ? "eye-off" : "eye"} size={22} color={colors.textSecondary} />
+            </TouchableOpacity>
+          </View>
 
           {errorPassword && (
             <View style={styles.errorContainer}>
@@ -94,18 +139,18 @@ export default function LoginScreen() {
             </View>
           )}
 
-          <TouchableOpacity style={styles.forgotPass}>
+          <TouchableOpacity style={styles.forgotPass} onPress={handleForgotPassword}>
             <Text style={[styles.forgotText, { color: GLOBAL_COLORS.primaryGreen }]}>¿Olvidaste tu contraseña?</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={[styles.loginButton, { backgroundColor: GLOBAL_COLORS.primaryGreen }]} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Iniciar Sesión</Text>
+          <TouchableOpacity style={[styles.loginButton, { backgroundColor: GLOBAL_COLORS.primaryGreen }]} onPress={handleLogin} disabled={isLoading}>
+            {isLoading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Iniciar Sesión</Text>}
           </TouchableOpacity>
 
           <View style={styles.registerContainer}>
             <Text style={[styles.noAccountText, { color: colors.textSecondary }]}>¿No tienes cuenta? </Text>
             <TouchableOpacity onPress={() => router.push('/register')}>
-                <Text style={[styles.registerText, { color: GLOBAL_COLORS.primaryGreen }]}>Regístrate aquí</Text>
+              <Text style={[styles.registerText, { color: GLOBAL_COLORS.primaryGreen }]}>Regístrate aquí</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -122,50 +167,18 @@ const styles = StyleSheet.create({
   tagline: { fontSize: 16, marginTop: 10 },
   form: { width: '100%' },
   label: { fontSize: 14, fontWeight: '600', marginBottom: 8 },
-  
-  input: {
-    borderWidth: 1.5,
-    borderRadius: 12,
-    paddingHorizontal: 15,
-    height: 56, // Cumple QA-IN-01 (Motricidad)
-    marginBottom: 20,
-    fontSize: 16,
-  },
-  
-  // --- ESTILO DE FOCO REQUERIDO (QA-IN-03) ---
-  inputFocused: {
-    borderColor: '#00b347', // Verde principal
-    borderWidth: 2.5,       // Más grueso para contraste
-    backgroundColor: 'transparent', 
-    elevation: 3,
-  },
-
-  errorContainer: { 
-    flexDirection: 'row', 
-    alignItems: 'center', 
-    marginTop: -10, 
-    marginBottom: 15 
-  },
-  errorText: { 
-    color: '#ef4444', 
-    fontSize: 14, 
-    marginLeft: 5, 
-    fontWeight: '600' 
-  },
-  
+  input: { borderWidth: 1.5, borderRadius: 12, paddingHorizontal: 15, height: 56, marginBottom: 20, fontSize: 16 },
+  passwordWrapper: { flexDirection: 'row', alignItems: 'center', borderWidth: 1.5, borderRadius: 12, height: 56, marginBottom: 20, paddingHorizontal: 15 },
+  passwordInput: { flex: 1, fontSize: 16, height: '100%' },
+  eyeButton: { padding: 5 },
+  inputFocused: { borderColor: '#00b347', borderWidth: 2.5, elevation: 3 },
+  errorContainer: { flexDirection: 'row', alignItems: 'center', marginTop: -10, marginBottom: 15 },
+  errorText: { color: '#ef4444', fontSize: 14, marginLeft: 5, fontWeight: '600' },
   forgotPass: { alignSelf: 'flex-end', marginBottom: 30 },
   forgotText: { fontWeight: '600' },
-
-  loginButton: {
-    height: 56, 
-    borderRadius: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 5,
-  },
-
+  loginButton: { height: 56, borderRadius: 15, alignItems: 'center', justifyContent: 'center', elevation: 5 },
   buttonText: { color: '#fff', fontSize: 18, fontWeight: 'bold' },
   registerContainer: { flexDirection: 'row', justifyContent: 'center', marginTop: 25 },
-  noAccountText: { },
+  noAccountText: {},
   registerText: { fontWeight: 'bold' },
 });

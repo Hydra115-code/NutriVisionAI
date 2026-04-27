@@ -2,6 +2,7 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
+import { UserProvider } from '../context/UserContext';
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { ThemeProvider as CustomThemeProvider } from '../context/ThemeContext'; // IMPORTANTE: Tu contexto personalizado
@@ -15,6 +16,7 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
 
   return (
+    <UserProvider>       
     <CustomThemeProvider> 
       {/* ThemeProvider 
       */}
@@ -35,5 +37,6 @@ export default function RootLayout() {
         <StatusBar style="auto" />
       </ThemeProvider>
     </CustomThemeProvider>
+    </UserProvider>   
   );
 }
