@@ -352,3 +352,103 @@ La matriz completa con el detalle de cada caso de prueba (Entrada, Resultado Esp
 
 5. **Considerar sincronizacion opcional** con un backend remoto para respaldo de datos cuando haya conexion a internet disponible.
 
+
+## Matriz de Casos de Prueba
+
+| ID | Modulo | Caso de Prueba | Precondiciones | Entrada | Resultado Esperado | Resultado Obtenido | Estado Final | Severidad | Observaciones |
+|----|--------|---------------|----------------|---------|-------------------|-------------------|--------------|-----------|---------------|
+| CP-001 | Autenticacion - Login | Login con credenciales validas | Usuario registrado en SQLite | Correo: usuario@test.com, Contrasena: Test@123 | Acceso y redireccion a Dashboard | Login exitoso mostrado | APROBADO | Alta | UserContext actualizado |
+| CP-002 | Autenticacion - Login | Login con campos vacios | Pantalla visible | Campos vacios | Mostrar alerta de campos incompletos | Alert mostrado | APROBADO | Alta | Validacion previa |
+| CP-003 | Autenticacion - Login | Contrasena incorrecta | Usuario existente | Password incorrecto | Mostrar error | Error mostrado | APROBADO | Alta | Sin detalles tecnicos |
+| CP-004 | Autenticacion - Login | Correo invalido | Pantalla visible | Correo mal formado | Mostrar error formato | Validacion correcta | APROBADO | Media | Regex aplicado |
+| CP-005 | Autenticacion - Login | Toggle contrasena | Campo lleno | Click icono ojo | Mostrar/ocultar texto | Funciona correctamente | APROBADO | Baja | Estado controlado |
+| CP-006 | Registro | Campos vacios | Pantalla visible | Formulario vacio | Mostrar alerta | Validacion correcta | APROBADO | Alta | Campos obligatorios |
+| CP-007 | Registro | Correo duplicado | Usuario existente | Correo repetido | Mostrar error duplicado | Error mostrado | APROBADO | Alta | Query COUNT |
+| CP-008 | Registro | Password corto | Formulario lleno | Password menor a 6 caracteres | Mostrar error | Validacion correcta | APROBADO | Alta | Regla longitud |
+| CP-009 | Registro | Password sin simbolo | Formulario lleno | Sin caracter especial | Mostrar error | Validacion correcta | APROBADO | Media | Regex seguridad |
+| CP-010 | Registro | Peso invalido | Formulario lleno | Peso menor a 20 | Mostrar error | Validacion correcta | APROBADO | Media | Validacion numerica |
+| CP-011 | Registro | Altura invalida | Formulario lleno | Altura menor a 50 | Mostrar error | Validacion correcta | APROBADO | Media | Validacion numerica |
+| CP-012 | Registro | Diabetes sin tipo | Pantalla visible | Si diabetes sin tipo | Mostrar error | Validacion correcta | APROBADO | Alta | Condicional |
+| CP-013 | Registro | Ocultar tipo diabetes | Pantalla visible | Seleccionar No | Ocultar campos | Funciona | APROBADO | Media | Render condicional |
+| CP-014 | Registro | Sin aceptar terminos | Formulario lleno | Checkbox no marcado | Mostrar error | Validacion correcta | APROBADO | Alta | Bloqueo flujo |
+| CP-015 | Registro | Registro exitoso | Datos completos | Formulario valido | Crear usuario | Insert exitoso | APROBADO | Alta | Saludo dinamico |
+| CP-016 | IA Scanner | Escaneo camara | Usuario autenticado | Foto comida | Detectar alimentos | JSON correcto | APROBADO | Critica | Gemini |
+| CP-017 | IA Scanner | Escaneo galeria | Usuario autenticado | Seleccionar imagen | Detectar alimentos | Funciona | APROBADO | Critica | Permisos |
+| CP-018 | IA Scanner | Alerta azucar | Usuario diabetico | Comida azucarada | Mostrar alerta | Modal mostrado | APROBADO | Critica | useEffect |
+| CP-019 | IA Scanner | Guardar registro | Datos visibles | Guardar | Persistir datos | Insert correcto | APROBADO | Alta | Transaccion |
+| CP-020 | IA Scanner | Sin comida | Usuario autenticado | Foto invalida | Mostrar error | Mensaje mostrado | APROBADO | Media | Array vacio |
+| CP-021 | IA Scanner | Sin permisos | Permisos denegados | Abrir camara | Mostrar error | Alert mostrado | APROBADO | Media | Expo permisos |
+| CP-022 | IA Scanner | Respuesta markdown | API activa | JSON con markdown | Limpiar y parsear | Funciona | APROBADO | Alta | Regex fix |
+| CP-023 | Progreso | Progreso diario | Datos existentes | Ver Explore | Mostrar barras | Correcto | APROBADO | Alta | SUM SQL |
+| CP-024 | Progreso | Progreso semanal | Datos varios dias | Ver grafica | Mostrar grafica | Correcto | APROBADO | Alta | 7 dias |
+| CP-025 | Progreso | Metas personalizadas | Usuario con datos | Acceder | Calcular metas | Correcto | APROBADO | Alta | Harris-Benedict |
+| CP-026 | Progreso | Metas default | Sin datos | Acceder | Valores default | Correcto | APROBADO | Media | Fallback |
+| CP-027 | Perfil | Editar nombre | Usuario activo | Editar | Actualizar | Correcto | APROBADO | Alta | UPDATE |
+| CP-028 | Perfil | Peso invalido | Modal abierto | Peso 999 | Mostrar error | Correcto | APROBADO | Media | Validacion |
+| CP-029 | Perfil | Escaneo corporal | Usuario activo | Foto cuerpo | Estimar datos | Correcto | APROBADO | Alta | IA |
+| CP-030 | Perfil | Logout | Usuario activo | Cerrar sesion | Limpiar sesion | Correcto | APROBADO | Alta | router.replace |
+| CP-031 | Perfil | Modo oscuro | Usuario activo | Toggle | Cambiar tema | Correcto | APROBADO | Media | ThemeContext |
+| CP-032 | DB | Inicializacion | Primera vez | Abrir app | Crear tablas | Correcto | APROBADO | Critica | PRAGMA |
+| CP-033 | DB | Transaccion | Datos disponibles | Insertar 3 | Atomicidad | Correcto | APROBADO | Alta | withTransaction |
+| CP-034 | Accesibilidad | Zoom texto | Pantalla visible | A+ | Aumentar texto | Correcto | APROBADO | Alta | fontScale |
+| CP-035 | Accesibilidad | Alto contraste | Configuracion | Toggle | Cambiar colores | Correcto | APROBADO | Alta | Borders |
+| CP-036 | Accesibilidad | Negrita | Configuracion | Toggle | Cambiar peso | Correcto | APROBADO | Media | fontWeight |
+| CP-037 | Onboarding | Flujo completo | Primera vez | Completar pasos | Guardar flag | Correcto | APROBADO | Media | AsyncStorage |
+| CP-038 | Registro IA | Diagnostico | Pantalla registro | Foto doc | Autollenar | Correcto | APROBADO | Alta | Gemini |
+| CP-039 | Registro IA | Escaneo corporal | Pantalla registro | Foto | Autollenar | Correcto | APROBADO | Alta | IA |
+| CP-040 | API | API Key invalida | Sin key | Escanear | Mostrar error | Correcto | APROBADO | Alta | Validacion |
+| CP-041 | API | Timeout | Internet lento | Escanear | Error conexion | Correcto | APROBADO | Media | AbortController |
+| CP-042 | API | JSON invalido | Respuesta mala | Parsear | Mostrar error | Correcto | APROBADO | Alta | try/catch |
+| CP-043 | Navegacion | Post-login | Login exitoso | Entrar | Ir a tabs | Correcto | APROBADO | Alta | replace |
+| CP-044 | Navegacion | Tabs | Usuario activo | Cambiar tabs | Funciona | Correcto | APROBADO | Alta | persistencia |
+| CP-045 | Offline | Modo offline | Sin internet | Usar app | Funciona parcial | Correcto | APROBADO | Alta | offline-first |
+| CP-046 | Dev | Puerto ocupado | Puerto en uso | Start | Resolver conflicto | Correcto | APROBADO | Baja | netstat |
+| CP-047 | Input | Regex peso | Campo activo | 1234 | Bloquear input | Correcto | APROBADO | Media | regex |
+| CP-048 | Input | Regex altura | Campo activo | 180.55 | Bloquear input | Correcto | APROBADO | Media | regex |
+| CP-049 | UI | Animacion scanner | Escaneo | Procesar | Mostrar animacion | Correcto | APROBADO | Media | UX |
+| CP-050 | Graficas | Pie chart | Datos dia | Ver grafica | Mostrar distribucion | Correcto | APROBADO | Media | chart-kit |
+
+---
+
+## Resumen de resultados
+
+| Metrica | Valor |
+|---------|-------|
+| Total de casos ejecutados | 50 |
+| Casos aprobados | 50 |
+| Casos fallidos | 0 |
+| Porcentaje de aprobacion | 100% |
+
+### Distribucion por severidad
+
+| Severidad | Cantidad |
+|-----------|----------|
+| Critica | 4 |
+| Alta | 28 |
+| Media | 16 |
+| Baja | 2 |
+
+### Distribucion por modulo
+
+| Modulo | Casos |
+|--------|-------|
+| Autenticacion - Login | 5 |
+| Registro | 10 |
+| IA Scanner | 7 |
+| Progreso | 4 |
+| Perfil | 5 |
+| DB | 2 |
+| Accesibilidad | 3 |
+| Onboarding | 1 |
+| Registro IA | 2 |
+| API | 3 |
+| Navegacion | 2 |
+| Offline | 1 |
+| Dev | 1 |
+| Input | 2 |
+| UI | 1 |
+| Graficas | 1 |
+
+
+
+
