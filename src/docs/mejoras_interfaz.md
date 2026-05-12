@@ -44,4 +44,13 @@ Durante la última iteración, se realizaron las siguientes modificaciones princ
 - **Layout de Macronutrientes:** Se cambió a un diseño de grid horizontal usando `flexDirection: 'row'`, agrupando visualmente Proteínas, Carbohidratos y Grasas en contenedores minimalistas con `borderWidth` y fondos que respetan el alfa/opacidad del color nativo, dando una estética prémium.
 
 ---
-*Este documento atestigua los estándares de Clean Code, escalabilidad de CSS en JS y UI/UX moderna aplicados durante la fase final del desarrollo frontend.*
+
+# Evolución de Ingeniería: Sprint 2 contra el Sprint 4 
+Para cumplir con los estándares de calidad del Sprint 4, se realizó una transición crítica desde un diseño conceptual hacia una arquitectura de software robusta y Realista para una app
+
+De Coherencia Funcional a Sostenibilidad: En el Sprint 2, el objetivo era validar que los prototipos correspondieran a los Requisitos Funcionales (RF). En el Sprint 4, la prioridad ha sido la Mantenibilidad. Pasamos de archivos monolíticos a una arquitectura donde la interfaz está totalmente desacoplada de la lógica, permitiendo el crecimiento del sistema sin generar deuda técnica.
+
+Integración de Requisitos No Funcionales (RNF): Mientras que en el Sprint 2 la accesibilidad era un concepto en papel, en esta fase se implementaron soluciones técnicas reales. El AccessibilityWidget y el AccessibilityProvider garantizan que la app cumpla con estándares de Usabilidad y Accesibilidad, transformando el prototipo en un producto inclusivo y funcional sin sesgos por el propio diseñador y orientandose por el modelo persona que es un principio del ux ui primero conocer al usario o arquetipo de usuario que utilizaria principalmente la aplicacion.
+
+Refactorización y Separación de Responsabilidades: Se eliminaron los estilos inline y se aplicó el patrón de diseño Separación de Interfaz, Lógica y Estilos. La creación de archivos .styles.ts independientes para cada pantalla cumple con la rúbrica de calidad, reduciendo el ruido visual en el código y facilitando el mantenimiento colaborativo entre los integrantes del equipo arquitectura escalable sin codigo espaguetti con comentarios claros para los desarrolladores y integrando todo en una app funcional mas usable  de esa forma que de un mvp rapido y con  bastantes errores y incoherencias.
+
