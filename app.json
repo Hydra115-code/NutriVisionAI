@@ -4,7 +4,7 @@
     "slug": "NutriVisionAI",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/logonutri.png",
+    "icon": "./assets/images/icon.png",
     "scheme": "nutrivisionai",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -39,7 +39,20 @@
           }
         }
       ],
-      "@react-native-community/datetimepicker"
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "NutriVision AI necesita acceso a la cámara para analizar tus alimentos."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "NutriVision AI necesita acceso a tus fotos para analizar alimentos."
+        }
+      ],
+      "expo-sqlite",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,
