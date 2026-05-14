@@ -33,6 +33,7 @@ export async function initLocalDb(): Promise<void> {
                 peso_kg REAL,
                 altura_cm REAL,
                 sexo TEXT,
+                fecha_nacimiento TEXT,
                 objetivo TEXT,
                 tiene_diabetes TEXT DEFAULT 'no',
                 tipo_diabetes TEXT,
@@ -40,6 +41,13 @@ export async function initLocalDb(): Promise<void> {
                 racha_inicial INTEGER DEFAULT 0
             );
         `);
+
+        // Migración: agregar columna fecha_nacimiento si no existe (bases de datos creadas antes de esta versión)
+        try {
+            await db.execAsync(`ALTER TABLE usuarios ADD COLUMN fecha_nacimiento TEXT;`);
+        } catch (_) {
+            // La columna ya existe, ignorar el error
+        }
 
         await db.execAsync(`
             CREATE TABLE IF NOT EXISTS registros_diarios (
@@ -115,8 +123,8 @@ export async function registerLocal(payload: any, passwordHash: string): Promise
         if (!db) db = await SQLite.openDatabaseAsync('nutrivision.db');
         const result = await db.runAsync(
             `INSERT INTO usuarios
-             (nombre, apellido, correo, password, peso_kg, altura_cm, sexo, objetivo, tiene_diabetes, tipo_diabetes, estado_inicial)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+             (nombre, apellido, correo, password, peso_kg, altura_cm, sexo, fecha_nacimiento, objetivo, tiene_diabetes, tipo_diabetes, estado_inicial)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
                 payload.nombre,
                 payload.apellido ?? null,
@@ -125,6 +133,7 @@ export async function registerLocal(payload: any, passwordHash: string): Promise
                 payload.peso_kg ?? null,
                 payload.altura_cm ?? null,
                 payload.sexo ?? null,
+                payload.fecha_nacimiento ?? null,
                 payload.objetivo ?? null,
                 payload.tiene_diabetes ?? 'no',
                 payload.tipo_diabetes ?? null,
