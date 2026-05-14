@@ -101,10 +101,10 @@ Navegación Estructurada: El sistema de pestañas principal (Tabs) está listo p
 * **IA:** Google Gemini 2.5 Flash (Multimodal) para reconocimiento de imágenes.
 
 ## Equipo (Roles Sprint 1)
-* Coordinador: [Juan Antonio Castañuela Carlos]
-* **Analista:** [Mariam Getzamaret Gomez Renteria]
-* **Diseñador UX/UI:** [Francisco Javier Martinez Garcia]
-* **QA / Tester:** [Erick Martinez Rocha]
-* **Desarrollador:** [Jesus Manuel Cornejo Rangel]
+* Coordinador: [Jesus Manuel Cornejo Rangel]
+* **Analista:** Francisco Javier Martinez Garcia[]
+* **Diseñador UX/UI:** [Erick Martinez Rocha]
+* **QA / Tester:** [Mariam Getzamaret Gomez Renteria]
+* **Desarrollador:** [Juan Antonio Castañuela Carlos]
 # Estado del Proyecto
 sprint 3
