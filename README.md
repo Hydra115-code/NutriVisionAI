@@ -100,11 +100,11 @@ Navegación Estructurada: El sistema de pestañas principal (Tabs) está listo p
 * **Base de Datos:** MySQL (Relacional) para integridad de expedientes.
 * **IA:** Google Gemini 2.5 Flash (Multimodal) para reconocimiento de imágenes.
 
-## Equipo (Roles Sprint 1)
+## Equipo (Roles Sprint 4)
 * Coordinador: [Juan Antonio Castañuela Carlos]
 * **Analista:** [Mariam Getzamaret Gomez Renteria]
 * **Diseñador UX/UI:** [Francisco Javier Martinez Garcia]
 * **QA / Tester:** [Erick Martinez Rocha]
 * **Desarrollador:** [Jesus Manuel Cornejo Rangel]
 # Estado del Proyecto
-sprint 3
+
