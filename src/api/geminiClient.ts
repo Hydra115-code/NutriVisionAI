@@ -16,8 +16,8 @@ export async function analyzeImageDirectly(base64: string): Promise<AnalysisResu
         return { ok: false, mensaje: 'La clave de API de Gemini no está configurada.', alimentos: [] };
     }
 
-    //gemini-2.5-flash en v1 (versión estable, disponible en este proyecto)
-    const url = `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+    //gemini-2.5-flash requiere v1beta
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
     const prompt = `Analiza la imagen de comida y devuelve estrictamente un array JSON plano 
   (sin markdown, sin \`\`\`, solo los corchetes) donde cada elemento represente un alimento.
@@ -123,8 +123,9 @@ export async function estimateBodyStatsDirectly(base64: string): Promise<{ ok: b
         return { ok: false, mensaje: 'La clave de API de Gemini no está configurada.' };
     }
 
-    const url = `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-
+    
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+    
     const prompt = `Analiza la imagen corporal y devuelve estrictamente JSON (sin markdown).
   Estima el peso y la altura.
   Estructura esperada:
@@ -171,7 +172,8 @@ export async function analyzeDiagnosisDirectly(base64: string): Promise<any> {
         return { ok: false, mensaje: 'La cla    ve de API de Gemini no está configurada.' };
     }
 
-    const url = `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+
 
     const prompt = `Lee el siguiente diagnóstico o examen médico y extrae la información del paciente en JSON estricto (sin markdown).
     Campos posibles (si no aparece o no es seguro, usa null):
