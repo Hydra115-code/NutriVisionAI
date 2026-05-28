@@ -188,8 +188,17 @@ export async function updateUserProfile(
   }
 }
 
-export async function resetPassword(email: string, newPassword: string): Promise<{ success: boolean; message: string }> {
+export async function getUserById(userId: number): Promise<User | null> {
   const database = await getDb();
+  const row = await database.getFirstAsync<any>(
+    `SELECT * FROM usuarios WHERE usuario_id = ? LIMIT 1`,
+    [userId]
+  );
+  if (!row) return null;
+  return mapRowToUser(row);
+}
+
+export async function resetPassword(email: string, newPassword: string): Promise<{ success: boolean; message: string }> {  const database = await getDb();
   const existing = await database.getFirstAsync<{ usuario_id: number }>(
     `SELECT usuario_id FROM usuarios WHERE correo = ?`,
     [email]

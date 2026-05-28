@@ -33,7 +33,7 @@ export const styles = StyleSheet.create({
   buttonContainer: { gap: 16 },
   primaryBtn: { flexDirection: 'row', minHeight: 64, borderRadius: 20, justifyContent: 'center', alignItems: 'center', elevation: 4, shadowColor: '#34d399', shadowOpacity: 0.3, shadowRadius: 10, shadowOffset: { width: 0, height: 4 } },
   primaryBtnText: { fontWeight: 'bold', marginLeft: 12, fontSize: 16 },
-  secondaryBtn: { minHeight: 64, borderRadius: 32, borderWidth: 2, justifyContent: 'center', alignItems: 'center' },
+  secondaryBtn: { minHeight: 64, borderRadius: 32, borderWidth: 2, justifyContent: 'center', alignItems: 'center', flexDirection: 'row' },
   secondaryBtnText: { fontWeight: 'bold', fontSize: 16 },
   logoutBtn: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 8, paddingVertical: 16 },
   logoutBtnText: { fontSize: 14 },

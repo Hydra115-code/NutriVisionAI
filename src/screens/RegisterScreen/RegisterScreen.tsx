@@ -8,8 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   View
-} 
-from 'react-native';
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import AppModal, { useAppModal } from '../../components/AppModal';
@@ -41,25 +40,35 @@ export default function RegisterScreen() {
         form.setTieneDiabetes('no'); 
         form.setTipoDiabetes(''); 
     }
-    showSuccess('Diagnóstico Procesado', `${diag.observaciones}\n\nLos campos han sido actualizados automáticamente con la información de tu documento médico.`);
+    showSuccess(
+      'Datos del documento detectados',
+      `Encontramos tu información en el documento y ya llenamos los campos automáticamente. Revisa que todo esté correcto antes de continuar.`
+    );
   };
 
   const handleBodyScanSuccess = (scan: any) => {
     form.setPeso(scan.pesoEstimado);
     if (scan.estaturaEstimada) form.setAltura(String(Math.round(parseFloat(scan.estaturaEstimada))));
-    showSuccess('Análisis Biométrico Completado', `Peso estimado: ${scan.pesoEstimado} kg\nEstatura: ${scan.estaturaEstimada} cm\nComplexión: ${scan.complexion}\nIMC: ${scan.imc}\n\n${scan.observaciones}`);
+    showSuccess(
+      'Datos detectados',
+      `Peso estimado: ${scan.pesoEstimado} kg\nEstatura: ${scan.estaturaEstimada} cm\nComplexión: ${scan.complexion}\nIMC: ${scan.imc}\n\nYa llenamos los campos con estos datos. Puedes ajustarlos si no son exactos.`
+    );
   };
 
   const onFinalizePress = async () => {
     try {
       const result = await form.handleFinalize((msg) => showWarning('Campos Incompletos', msg));
       if (result?.success) {
-        showSuccess('¡Bienvenido a NutriVision!', 'Tu cuenta ha sido creada exitosamente. Ya puedes comenzar a escanear tus platillos y monitorear tu salud.', () => router.replace('/(tabs)'));
+        showSuccess(
+          '¡Ya eres parte de NutriVision! 🎉',
+          `Tu cuenta está lista, ${form.nombre.split(' ')[0] || 'bienvenido'}.\n\nDesde ahora puedes fotografiar tus comidas y la app te dirá exactamente qué estás comiendo. ¡Empieza cuando quieras!`,
+          () => router.replace('/(tabs)')
+        );
       } else if (result) {
-        showError('Error en Registro', result.message || 'No se pudo crear tu cuenta. Verifica que tus datos sean correctos e inténtalo nuevamente.');
+        showError('No se pudo crear la cuenta', result.message || 'Verifica que tus datos sean correctos e inténtalo de nuevo.');
       }
     } catch (error) {
-      showError('Error Inesperado', 'Ocurrió un problema al crear tu cuenta. Esto puede deberse a una falla temporal. Por favor intenta de nuevo en unos momentos.');
+      showError('Algo salió mal', 'Hubo un problema al crear tu cuenta. Cierra esta ventana e intenta de nuevo.');
     }
   };
 
@@ -81,7 +90,7 @@ export default function RegisterScreen() {
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
 
         <View style={styles.header}>
-            <Text style={[styles.stepText, { color: colors.textMuted }]}>Perfil - Paso 1 de 1</Text>
+            <Text style={[styles.stepText, { color: colors.textMuted }]}>Crea tu perfil — solo toma un minuto</Text>
             <View style={[styles.progressBarBg, { backgroundColor: colors.border }]}>
                 <View style={[styles.progressBarFill, { backgroundColor: colors.primaryGreen }]} />
             </View>
@@ -100,8 +109,8 @@ export default function RegisterScreen() {
             <View style={[styles.iaIconBox, { backgroundColor: colors.accentBlue + '33' }]}>
               <MaterialCommunityIcons name="file-document-outline" size={24} color={colors.accentBlue} />
             </View>
-            <Text style={[styles.iaButtonTitle, { color: colors.text }]}>Rellenar con Diagnóstico</Text>
-            <Text style={[styles.iaButtonSub, { color: colors.textMuted }]}>Importa datos médicos</Text>
+            <Text style={[styles.iaButtonTitle, { color: colors.text }]}>Tengo un diagnóstico médico</Text>
+            <Text style={[styles.iaButtonSub, { color: colors.textMuted }]}>Sube una foto y llenamos los datos</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -112,8 +121,8 @@ export default function RegisterScreen() {
             <View style={[styles.iaIconBox, { backgroundColor: colors.primaryGreen + '33' }]}>
               <MaterialCommunityIcons name="human-male-height" size={24} color={colors.primaryGreen} />
             </View>
-            <Text style={[styles.iaButtonTitle, { color: colors.text }]}>Escaneo Corporal IA</Text>
-            <Text style={[styles.iaButtonSub, { color: colors.textMuted }]}>Análisis físico rápido</Text>
+            <Text style={[styles.iaButtonTitle, { color: colors.text }]}>Detectar mi peso y estatura</Text>
+            <Text style={[styles.iaButtonSub, { color: colors.textMuted }]}>La IA lo estima con una foto</Text>
           </TouchableOpacity>
         </View>
 

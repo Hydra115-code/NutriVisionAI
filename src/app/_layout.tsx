@@ -20,8 +20,8 @@ import AccessibilityWidget from '../components/AccessibilityWidget';
 import ErrorBoundary from '../components/ErrorBoundary';
 
 export const unstable_settings = {
-  // La primera pantalla que se muestra es el login
-  initialRouteName: 'login',
+  // index.tsx maneja la redirección inteligente (welcome / login / tabs)
+  initialRouteName: 'index',
 };
 
 // Componente interno que usa el tema
@@ -31,27 +31,14 @@ function RootLayoutInner() {
   return (
     <NavThemeProvider value={isDark ? DarkTheme : DefaultTheme}>
       <Stack>
-        {/* 0. Pantalla de Bienvenida y Accesibilidad */}
+        <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="welcome" options={{ headerShown: false }} />
         <Stack.Screen name="accessibility" options={{ presentation: 'transparentModal', animation: 'slide_from_bottom', headerShown: false }} />
-
-        {/* 1. Pantalla de Login */}
         <Stack.Screen name="login" options={{ headerShown: false }} />
-
-        {/* 2. Pantalla de Registro */}
         <Stack.Screen name="register" options={{ headerShown: false }} />
-
-        {/* 3. Las pestañas principales (Dashboard) */}
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-
-
-        {/* 5. Restablecer contraseña */}
         <Stack.Screen name="forgot-password" options={{ headerShown: false }} />
-
-        {/* 6. Editar perfil */}
         <Stack.Screen name="edit-profile" options={{ headerShown: false }} />
-
-        {/* 7. Términos y condiciones */}
         <Stack.Screen name="terms" options={{ presentation: 'modal', headerShown: false }} />
       </Stack>
       <AccessibilityWidget />
