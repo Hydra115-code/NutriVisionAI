@@ -10,7 +10,8 @@ import {
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAppTheme } from '../../contexts/ThemeContext';
-import { styles } from './WelcomeScreen.styles';
+import { useScaledStyles } from '../../hooks/useScaledStyles';
+import { makeStyles } from './WelcomeScreen.styles';
 
 const { width } = Dimensions.get('window');
 
@@ -48,6 +49,8 @@ const STEPS = [
 export default function WelcomeScreen() {
   const { colors } = useAppTheme();
   const router = useRouter();
+  const { sc } = useScaledStyles();
+  const styles = makeStyles(sc);
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef<any>(null);
   const scrollX = useRef(new Animated.Value(0)).current;
@@ -77,7 +80,7 @@ export default function WelcomeScreen() {
       <View style={{ alignItems: 'flex-end', paddingHorizontal: 24, paddingTop: 16, minHeight: 44 }}>
         {!isLastStep && (
           <TouchableOpacity onPress={handleSkip} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
-            <Text style={{ color: colors.textMuted, fontSize: 15, fontWeight: '600' }}>Saltar</Text>
+            <Text style={{ color: colors.textMuted, fontSize: sc(15), fontWeight: '600' }}>Saltar</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -100,12 +103,12 @@ export default function WelcomeScreen() {
         </View>
 
         {/* Título */}
-        <Text style={[styles.title, { color: colors.text, fontSize: 28, marginBottom: 20, textAlign: 'center' }]}>
+        <Text style={[styles.title, { color: colors.text, fontSize: sc(28), marginBottom: 20, textAlign: 'center' }]}>
           {currentStep.title}
         </Text>
 
         {/* Descripción */}
-        <Text style={[styles.subtitle, { color: colors.textSecondary, fontSize: 16, lineHeight: 26, textAlign: 'center' }]}>
+        <Text style={[styles.subtitle, { color: colors.textSecondary, fontSize: sc(16), lineHeight: 26, textAlign: 'center' }]}>
           {currentStep.description}
         </Text>
 

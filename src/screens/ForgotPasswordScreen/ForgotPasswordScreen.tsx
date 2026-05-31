@@ -15,7 +15,8 @@ import {
 import AppModal, { useAppModal } from '../../components/AppModal';
 import { useAppTheme } from '../../contexts/ThemeContext';
 import { resetPassword } from '../../services/database';
-import { styles } from './ForgotPasswordScreen.styles';
+import { useScaledStyles } from '../../hooks/useScaledStyles';
+import { makeStyles } from './ForgotPasswordScreen.styles';
 
 export default function ForgotPasswordScreen() {
   const [email, setEmail] = useState('');
@@ -28,6 +29,8 @@ export default function ForgotPasswordScreen() {
   const router = useRouter();
   const { colors } = useAppTheme();
   const { modal, showSuccess, showError, showWarning } = useAppModal();
+  const { sc } = useScaledStyles();
+  const styles = makeStyles(sc);
 
   const handleReset = async () => {
     if (email.trim() === '') {

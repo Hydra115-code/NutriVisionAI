@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { Colors } from '../../constants/theme';
 
-export const styles = StyleSheet.create({
+export const makeStyles = (sc: (n: number) => number) => StyleSheet.create({
   container: {
     flex: 1,
   },
@@ -39,14 +39,14 @@ export const styles = StyleSheet.create({
     marginBottom: 24,
   },
   title: {
-    fontSize: 32,
+    fontSize: sc(32),
     fontWeight: '800',
     textAlign: 'center',
     marginBottom: 16,
     lineHeight: 40,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: sc(16),
     textAlign: 'center',
     lineHeight: 24,
     paddingHorizontal: 20,
@@ -72,12 +72,12 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   featureTitle: {
-    fontSize: 16,
+    fontSize: sc(16),
     fontWeight: '700',
     marginBottom: 4,
   },
   featureDesc: {
-    fontSize: 14,
+    fontSize: sc(14),
   },
   buttonContainer: {
     width: '100%',
@@ -92,7 +92,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   primaryButtonText: {
-    fontSize: 18,
+    fontSize: sc(18),
     fontWeight: '700',
     color: '#0f172a',
     marginRight: 8,
@@ -103,10 +103,10 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loginText: {
-    fontSize: 15,
+    fontSize: sc(15),
   },
   loginLink: {
-    fontSize: 15,
+    fontSize: sc(15),
     fontWeight: '700',
   },
 });

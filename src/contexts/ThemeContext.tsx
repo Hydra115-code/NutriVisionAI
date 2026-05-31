@@ -1,47 +1,51 @@
 // ============================================================
 // CONTEXTO DE TEMA - ThemeContext.tsx
 // ============================================================
-// Provee el tema (light/dark) a toda la aplicación.
-// - Usa el tema del sistema como valor inicial
-// - Permite alternar manualmente con toggleTheme()
-// - Expone los colores del tema activo via useAppTheme()
+// Provee el tema (light/dark/highContrast) y fontScale a toda
+// la aplicación, leyendo las preferencias de accesibilidad.
 // ============================================================
 
 import React, { createContext, useContext, useState } from 'react';
 import { Appearance } from 'react-native';
-import { Colors, type ThemeColors } from '../constants/theme';
+import { Colors, HighContrastColors, type ThemeColors } from '../constants/theme';
+import { useAccessibility } from './AccessibilityContext';
 
 interface ThemeContextType {
   isDark: boolean;
   colors: ThemeColors;
+  fontScale: number;
   toggleTheme: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  // Inicializar con el tema del sistema operativo
   const systemScheme = Appearance.getColorScheme();
   const [isDark, setIsDark] = useState(systemScheme === 'dark');
 
-  const toggleTheme = () => {
-    setIsDark(prev => !prev);
-  };
+  // Leer accesibilidad para alto contraste y escala de fuente
+  const { highContrast, fontScale } = useAccessibility();
 
-  const colors = isDark ? Colors.dark : Colors.light;
+  const toggleTheme = () => setIsDark(prev => !prev);
+
+  // Si alto contraste está activo, usar paleta de alto contraste
+  // Si no, usar la paleta normal según dark/light
+  let colors: ThemeColors;
+  if (highContrast) {
+    colors = isDark ? HighContrastColors.dark : HighContrastColors.light;
+  } else {
+    colors = isDark ? Colors.dark : Colors.light;
+  }
 
   return (
-    <ThemeContext.Provider value={{ isDark, colors, toggleTheme }}>
+    <ThemeContext.Provider value={{ isDark, colors, fontScale, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );
 }
 
-// Hook para acceder al tema desde cualquier componente
 export function useAppTheme(): ThemeContextType {
-  const context = useContext(ThemeContext);
-  if (context === undefined) {
-    throw new Error('useAppTheme debe usarse dentro de un ThemeProvider');
-  }
-  return context;
+  const ctx = useContext(ThemeContext);
+  if (!ctx) throw new Error('useAppTheme debe usarse dentro de ThemeProvider');
+  return ctx;
 }

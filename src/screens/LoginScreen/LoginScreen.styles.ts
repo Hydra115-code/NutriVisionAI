@@ -1,13 +1,13 @@
 import { StyleSheet } from 'react-native';
 
-export const styles = StyleSheet.create({
+export const makeStyles = (sc: (n: number) => number) => StyleSheet.create({
   container: { flex: 1 },
   scrollContainer: { flexGrow: 1, justifyContent: 'center', padding: 24, paddingBottom: 50 },
   header: { alignItems: 'center', marginBottom: 40 },
   iconContainer: { justifyContent: 'center', alignItems: 'center', marginBottom: 16 },
   iconBox: { width: 64, height: 64, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
-  logo: { fontSize: 28, fontWeight: 'bold', marginBottom: 4 },
-  tagline: { fontSize: 14 },
+  logo: { fontSize: sc(28), fontWeight: 'bold', marginBottom: 4 },
+  tagline: { fontSize: sc(14) },
   formContainer: { width: '100%' },
   inputContainer: {
     flexDirection: 'row',
@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     minHeight: 56,
   },
-  inputBase: { flex: 1, fontSize: 16, paddingVertical: 12 },
+  inputBase: { flex: 1, fontSize: sc(16), paddingVertical: 12 },
   eyeIcon: { padding: 4 },
   loginButton: {
     minHeight: 56,
@@ -31,16 +31,16 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 10,
   },
-  buttonText: { color: '#0f172a', fontSize: 16, fontWeight: 'bold' },
+  buttonText: { color: '#0f172a', fontSize: sc(16), fontWeight: 'bold' },
   registerContainer: { flexDirection: 'row', justifyContent: 'center', marginTop: 24 },
-  noAccountText: { fontSize: 14 },
-  registerText: { fontWeight: 'bold', fontSize: 14 },
+  noAccountText: { fontSize: sc(14) },
+  registerText: { fontWeight: 'bold', fontSize: sc(14) },
   orContainer: { alignItems: 'center', marginVertical: 32, position: 'relative' },
   line: { position: 'absolute', top: '50%', left: 0, right: 0, height: 1 },
-  orText: { fontSize: 10, fontWeight: 'bold', letterSpacing: 1.5, paddingHorizontal: 12 },
+  orText: { fontSize: sc(10), fontWeight: 'bold', letterSpacing: 1.5, paddingHorizontal: 12 },
   socialButtons: { flexDirection: 'row', justifyContent: 'center', gap: 24 },
   forgotContainer: { alignSelf: 'flex-end', marginBottom: 16, marginTop: -4 },
-  forgotText: { fontSize: 13, fontWeight: '600' },
+  forgotText: { fontSize: sc(13), fontWeight: '600' },
   socialBtn: {
     width: 56,
     height: 56,

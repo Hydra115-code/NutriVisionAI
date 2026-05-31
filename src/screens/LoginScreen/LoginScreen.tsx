@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -11,17 +12,19 @@ import {
   View
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
 import AppModal, { useAppModal } from '../../components/AppModal';
 import { useAppTheme } from '../../contexts/ThemeContext';
 import { useAuth } from '../../contexts/AuthContext';
-import { styles } from './LoginScreen.styles';
+import { useScaledStyles } from '../../hooks/useScaledStyles';
+import { makeStyles } from './LoginScreen.styles';
 
 export default function LoginScreen() {
   const router = useRouter();
   const { colors } = useAppTheme();
   const { login } = useAuth();
   const { modal, showError, showWarning } = useAppModal();
+  const { sc } = useScaledStyles();
+  const styles = makeStyles(sc);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -29,6 +32,7 @@ export default function LoginScreen() {
   const [emailFocused, setEmailFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
 
   const handleLogin = async () => {
     if (email.trim() === '' || password.trim() === '') {
@@ -72,8 +76,8 @@ export default function LoginScreen() {
               <MaterialCommunityIcons name="leaf" size={32} color={colors.primaryGreen} />
             </View>
           </View>
-          <Text style={[styles.logo, { color: colors.text }]}>NutriVision AI</Text>
-          <Text style={[styles.tagline, { color: colors.textSecondary }]}>Tu salud, bajo control visual.</Text>
+          <Text style={[styles.logo, { color: colors.text, fontSize: sc(28) }]}>NutriVision AI</Text>
+          <Text style={[styles.tagline, { color: colors.textSecondary, fontSize: sc(14) }]}>Tu salud, bajo control visual.</Text>
         </View>
 
         <View style={styles.formContainer}>
@@ -110,7 +114,7 @@ export default function LoginScreen() {
           </View>
 
           <TouchableOpacity style={styles.forgotContainer} onPress={() => router.push('/forgot-password')}>
-            <Text style={[styles.forgotText, { color: colors.primaryGreen }]}>¿Olvidaste tu contraseña?</Text>
+            <Text style={[styles.forgotText, { color: colors.primaryGreen, fontSize: sc(14) }]}>¿Olvidaste tu contraseña?</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -122,33 +126,18 @@ export default function LoginScreen() {
             {isLoading ? (
               <ActivityIndicator color="#0f172a" size="small" />
             ) : (
-              <Text style={styles.buttonText}>Iniciar Sesión</Text>
+              <Text style={[styles.buttonText, { fontSize: sc(16) }]}>Iniciar Sesión</Text>
             )}
           </TouchableOpacity>
 
           <View style={styles.registerContainer}>
-            <Text style={[styles.noAccountText, { color: colors.textSecondary }]}>¿No tienes cuenta?{' '}</Text>
+            <Text style={[styles.noAccountText, { color: colors.textSecondary, fontSize: sc(14) }]}>¿No tienes cuenta?{' '}</Text>
             <TouchableOpacity onPress={() => router.push('/register')}>
-              <Text style={[styles.registerText, { color: colors.primaryGreen }]}>Regístrate aquí</Text>
+              <Text style={[styles.registerText, { color: colors.primaryGreen, fontSize: sc(14) }]}>Regístrate aquí</Text>
             </TouchableOpacity>
           </View>
 
-          <View style={styles.orContainer}>
-            <View style={[styles.line, { backgroundColor: colors.border }]} />
-            <Text style={[styles.orText, { backgroundColor: colors.background, color: colors.textMuted }]}>O INICIA SESIÓN CON</Text>
-          </View>
-
-          <View style={styles.socialButtons}>
-            <TouchableOpacity style={[styles.socialBtn, { borderColor: colors.border }]}>
-              <MaterialCommunityIcons name="google" size={22} color="#EA4335" />
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.socialBtn, { borderColor: colors.border }]}>
-              <MaterialCommunityIcons name="apple" size={22} color={colors.text} />
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.socialBtn, { borderColor: colors.border }]}>
-              <MaterialCommunityIcons name="facebook" size={22} color="#1877F2" />
-            </TouchableOpacity>
-          </View>
+          
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

@@ -17,12 +17,15 @@ import { useAppTheme } from '../../contexts/ThemeContext';
 import { useRegisterForm } from '../../hooks/useAuthForm';
 import { useImageScanner } from '../../hooks/useImageScanner';
 import { ErrorFeedback, LoadingFeedback } from '../../components/ui/StateFeedbacks';
-import { styles } from './RegisterScreen.styles';
+import { useScaledStyles } from '../../hooks/useScaledStyles';
+import { makeStyles } from './RegisterScreen.styles';
 
 export default function RegisterScreen() {
   const router = useRouter();
   const { colors } = useAppTheme();
   const { modal, showSuccess, showError, showWarning, showInfo } = useAppModal();
+  const { sc } = useScaledStyles();
+  const styles = makeStyles(sc);
   
   const { isScanning, errorState, clearError, scanFromLibrary } = useImageScanner();
   const form = useRegisterForm();
