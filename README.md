@@ -1,6 +1,7 @@
-# NutriVision AI 
+# NutriVision AI
 
 ## Descripción
+
 **NutriVision AI** es una plataforma móvil para eliminar la carga mental de los pacientes con Diabetes, sustituyendo el conteo manual de carbohidratos —tedioso y propenso a errores— por un sistema visual. Mediante el uso de IA Multimodal, la app interpreta platos de comida en tiempo real, ofreciendo seguridad, prevención y libertad alimentaria a través de una interfaz intuitiva y accesible.
 
 **Problema que se busca resolver:**
@@ -8,103 +9,228 @@ Los pacientes con Diabetes (Tipo 1 y 2) enfrentan una enorme dificultad diaria p
 
 Esta aplicación busca automatizar este proceso mediante Inteligencia Artificial, permitiendo un registro rápido, visual y preventivo.
 
+---
+
 ## Usuario
+
 **¿Quién usará el sistema?**
-* **Primario:** Pacientes diagnosticados con Diabetes Mellitus Tipo 1 y 2 que requieren conteo estricto de macronutrientes.
-* **Secundario:** Personas con pre-diabetes o resistencia a la insulina en proceso de reeducación alimentaria.
-* **Terciario:** Cuidadores de adultos mayores o niños que necesitan monitorear la alimentación de sus pacientes a distancia.
+
+- **Primario:** Pacientes diagnosticados con Diabetes Mellitus Tipo 1 y 2 que requieren conteo estricto de macronutrientes.
+- **Secundario:** Personas con pre-diabetes o resistencia a la insulina en proceso de reeducación alimentaria.
+- **Terciario:** Cuidadores de adultos mayores o niños que necesitan monitorear la alimentación de sus pacientes a distancia.
+
+---
 
 ## Alcance
+
 **Qué SÍ hace:**
-* **Análisis Visual:** Identifica alimentos y estima porciones mediante fotos (Snap & Track) usando IA Generativa.
-* **Cálculo de Riesgo:** Estima carbohidratos netos y emite alertas visuales (Semáforo) si detecta alimentos de alto índice glucémico.
-* **Historial Médico:** Guarda un registro detallado de las comidas para revisión del nutriólogo/médico.
-* **Modo Cuidador:** Permite la supervisión remota de lo que come el paciente.
+
+- **Análisis Visual:** Identifica alimentos y estima porciones mediante fotos (Snap & Track) usando IA Generativa.
+- **Cálculo de Riesgo:** Estima carbohidratos netos y emite alertas visuales si detecta alimentos de alto índice glucémico.
+- **Historial Médico:** Guarda un registro detallado de las comidas para revisión del nutriólogo/médico.
+- **Exportación de datos:** Permite exportar el historial nutricional en formato PDF o como tabla de datos.
+- **Progreso semanal:** Visualiza la actividad semanal con desglose por día y macronutrientes.
+- **Accesibilidad:** Soporte de tamaño de texto, contraste y animaciones configurables.
 
 **Qué NO hace:**
-* **No prescribe insulina:** No calcula unidades de insulina a inyectar (por responsabilidad legal y seguridad médica).
-* **No diagnostica:** No sustituye el juicio de un médico ni realiza diagnósticos clínicos.
-* **No funciona 100% Offline:** Requiere conexión a internet para el procesamiento de la IA en la nube.
+
+- **No prescribe insulina:** No calcula unidades de insulina a inyectar (por responsabilidad legal y seguridad médica).
+- **No diagnostica:** No sustituye el juicio de un médico ni realiza diagnósticos clínicos.
+- **No funciona 100% Offline:** Requiere conexión a internet para el procesamiento de la IA en la nube.
+
+---
 
 ## Tipo de sistema
+
 **Móvil Nativo (Android / iOS)**
 
 **Justificación:**
 Se eligió una arquitectura móvil nativa (**React Native + Expo**) porque:
-1.  **Hardware:** Requiere acceso directo y optimizado a la cámara del dispositivo para el escaneo de alimentos.
-2.  **Accesibilidad:** Permite adaptar la interfaz (fuentes grandes, alto contraste) para pacientes con dificultades visuales (retinopatía), común en el público objetivo.
-3.  **Ubicuidad:** El control de la diabetes es una necesidad de 24 horas; el usuario necesita la herramienta en su bolsillo, no en una computadora de escritorio.
+
+1. **Hardware:** Requiere acceso directo y optimizado a la cámara del dispositivo para el escaneo de alimentos.
+2. **Accesibilidad:** Permite adaptar la interfaz (fuentes grandes, alto contraste) para pacientes con dificultades visuales (retinopatía), común en el público objetivo.
+3. **Ubicuidad:** El control de la diabetes es una necesidad de 24 horas; el usuario necesita la herramienta en su bolsillo, no en una computadora de escritorio.
 
 ---
 
 ## Guía de Inicio Rápido (Local)
-Para el despliegue de la interfaz y la validación del flujo de usuario en un entorno de desarrollo local, siga los protocolos técnicos descritos a continuación:
 
-1. Preparación del Entorno y Dependencias
-Antes de la ejecución, desde la terminal, en la raíz del proyecto, ejecute:
+### Requisitos previos
 
+- Node.js 18 o superior
+- npm 9 o superior
+- Expo Go instalado en tu dispositivo físico **o** un emulador de Android/iOS activo
+- Una API Key de Google Gemini (ver sección de variables de entorno)
+
+### 1. Clonar el repositorio
+
+```bash
+git clone <url-del-repositorio>
+cd nutrivisionai
+```
+
+### 2. Instalar dependencias
+
+```bash
 npm install
+```
 
-Este comando instalará el motor de React Native, las dependencias de Expo SDK y los módulos de NativeWind configurados para el diseño.
+### 3. Configurar variables de entorno
 
-2. Inicialización del Servidor de Metro Bundler
-Para compilar el código JavaScript y habilitar el hot-reloading, inicie el entorno de desarrollo mediante:
+Crea un archivo `.env` en la raíz del proyecto.
 
-npx expo start -c
+Luego edita `.env` y agrega tu API Key de Google Gemini:
+
+```env
+EXPO_PUBLIC_GEMINI_API_KEY=tu_api_key_aqui
+```
+
+> **¿Cómo obtener la API Key?**
+> Ve a [Google AI Studio](https://aistudio.google.com/app/apikey), inicia sesión con tu cuenta de Google y genera una nueva clave. Es gratuita para uso de desarrollo.
+
+> **Importante:** El archivo `.env` está en `.gitignore` y **nunca debe subirse al repositorio** ya que contiene credenciales privadas.
+
+### 4. Iniciar el servidor de desarrollo
+
+```bash
+npx expo start --clear
+```
 
 Una vez ejecutado, se desplegará en la consola la interfaz de Metro con las opciones de conexión y el código QR de vinculación.
 
-3. Despliegue en Entornos de Prueba
-Existen dos métodos validados para interactuar con el flujo del sistema:
+### 5. Abrir la app en tu dispositivo
 
-Emulador de Android (Recomendado): Asegúrese de que el AVD (Android Virtual Device) esté activo en Android Studio. Posteriormente, presione la tecla a en la terminal. El sistema instalará automáticamente el APK de desarrollo y abrirá la pantalla de inicio de sesión.
+| Método | Instrucción |
+|---|---|
+| **Expo Go (físico)** | Escanea el código QR con la app Expo Go. Ambos dispositivos deben estar en la misma red Wi-Fi. |
+| **Emulador Android** | Presiona `a` en la terminal con el AVD activo en Android Studio. |
+| **Simulador iOS** | Presiona `i` en la terminal (solo macOS con Xcode instalado). |
 
-Dispositivo Físico: Utilice la aplicación Expo Go (disponible en Play Store/App Store). Escanee el código QR generado en la terminal. Ambos dispositivos (computadora y móvil) deben estar conectados a la misma red local para permitir la transferencia de paquetes.
-
-4. Pruebas de Flujo y Navegación
-Con la aplicación en ejecución, se puede verificar la lógica de navegación implementada en este sprint
-
+---
 
 ## Flujo Principal del Sistema
 
-El recorrido del usuario está diseñado para ser sencillo y evitar errores al ingresar información de salud. El orden es el siguiente:
+El recorrido del usuario está diseñado para ser sencillo y evitar errores al ingresar información de salud:
 
-Inicio de Sesión: El usuario entra a la app con su cuenta. El sistema verifica que los campos no estén vacíos y avisa si falta información para poder continuar.
+1. **Inicio de Sesión:** El usuario entra a la app con su cuenta. El sistema valida campos y muestra avisos si falta información.
+2. **Registro de Perfil:** El usuario nuevo llena sus datos básicos. La app pregunta si padece Diabetes; si responde Sí, se muestran opciones adicionales para el tipo de diabetes.
+3. **Validación y Seguridad:** El sistema obliga a aceptar los términos y condiciones antes de continuar.
+4. **Dashboard Principal:** Panel con metas diarias, escaneo de alimentos por IA, historial y navegación por pestañas.
+5. **Escaneo de Alimentos:** El usuario fotografía su platillo; la IA identifica alimentos, estima macronutrientes y emite alertas si detecta alto índice glucémico.
+6. **Progreso y Exportación:** El usuario puede revisar su actividad semanal con desglose detallado y exportar su historial en PDF.
 
-Registro de Perfil: Si es un usuario nuevo, llena sus datos básicos como nombre, edad y peso. En esta parte, la app hace una pregunta clave: "¿Padeces Diabetes?".
+---
 
-Si el usuario responde que Sí, se abren opciones extra para elegir su tipo de diabetes.
+## Estado Actual del Desarrollo — Sprint 5
 
-Si responde que No, estas opciones se mantienen ocultas para no saturar la pantalla.
+El proyecto se encuentra en el **Sprint 5 (Cierre del Producto)**, correspondiente a la asignatura Ingeniería de Software (SCD-1011), periodo 18 de mayo al 4 de junio de 2026.
 
-Validación y Seguridad: Antes de terminar, el sistema obliga a aceptar los términos y condiciones. Si el usuario olvida llenar un dato o no acepta los términos, la app muestra un aviso y le impide avanzar hasta que todo esté correcto.
+Este sprint cierra el ciclo de desarrollo con una **iteración ágil de cambio**: se recibió retroalimentación externa de un docente, se transformó en una mejora concreta, se implementó, probó y documentó.
 
-Pantalla Principal (Dashboard): Una vez registrado, el usuario llega al panel principal donde puede ver sus metas diarias y navegar por las diferentes secciones de la app (como el perfil y el escáner de comida) usando la barra de navegación inferior.
+### Funcionalidades implementadas
 
-## Estado Actual del Desarrollo
-El proyecto se encuentra al cierre del Sprint 3, habiendo evolucionado de una fase de análisis a un Producto Mínimo Viable (MVP) Operativo. El estado actual se resume en los siguientes puntos:
+- Autenticación local (registro, inicio de sesión, recuperación de contraseña)
+- Perfil de usuario con datos biométricos (peso, altura, IMC, condición de diabetes)
+- Escaneo de alimentos por IA (Google Gemini Multimodal)
+- Historial de registros agrupado por fecha con detalle expandible
+- Dashboard con resumen diario de calorías y macronutrientes
+- Gráfica de actividad semanal con desglose en bottom sheet
+- Exportación de datos en PDF (reporte de salud y tabla de datos)
+- Escaneo corporal por IA para estimación de peso e IMC
+- Modo claro / oscuro
+- Configuración de accesibilidad (tamaño de texto, contraste, animaciones)
+- Base de datos local SQLite (sin dependencia de servidor externo)
 
-Interfaz Funcional: Las pantallas de Inicio de Sesión y Registro están totalmente desarrolladas y conectadas mediante un sistema de navegación basado en archivos.
+### Rama activa
 
-Lógica de Validación: Se han implementado reglas de negocio que impiden el avance del usuario si existen campos vacíos o si no se han aceptado los términos legales, garantizando la integridad de la base de datos.
+Durante el Sprint 5, el trabajo se integra en la rama `desarrollo`. La rama `main` solo recibe la versión final validada al cierre del sprint.
 
-Componentes Inteligentes: El formulario de registro cuenta con lógica condicional que adapta la interfaz según el perfil médico del usuario (diabetes tipo 1, 2, etc.).
+```
+feature-analista   ──┐
+feature-diseno     ──┤──► desarrollo ──► main (solo si queda validado)
+feature-dev        ──┤
+feature-qa         ──┤
+feature-coordinador┘
+```
 
-Infraestructura de Pruebas: El entorno está configurado para ejecutarse en emuladores de Android Studio, permitiendo realizar demostraciones en tiempo real del flujo completo del sistema.
+---
 
-Navegación Estructurada: El sistema de pestañas principal (Tabs) está listo para recibir la integración de los módulos de Inteligencia Artificial.
+## Tecnologías (Stack Técnico)
 
-## Tecnologías Tentativas (Stack Técnico)
-* **Frontend:** React Native (Expo) + NativeWind.
-* **Backend:** Node.js (Express) para gestión de alertas y usuarios.
-* **Base de Datos:** MySQL (Relacional) para integridad de expedientes.
-* **IA:** Google Gemini 2.5 Flash (Multimodal) para reconocimiento de imágenes.
+| Capa | Tecnología |
+|---|---|
+| Frontend | React Native (Expo SDK 54) |
+| Navegación | Expo Router (file-based routing) |
+| Base de datos | SQLite local (expo-sqlite) |
+| IA | Google Gemini 2.5 Flash (Multimodal) |
+| Estilos | StyleSheet nativo + temas dinámicos |
+| Exportación | expo-print + expo-sharing |
 
-## Equipo (Roles Sprint 4)
-* Coordinador: [Juan Antonio Castañuela Carlos]
-* **Analista:** [Mariam Getzamaret Gomez Renteria]
-* **Diseñador UX/UI:** [Francisco Javier Martinez Garcia]
-* **QA / Tester:** [Erick Martinez Rocha]
-* **Desarrollador:** [Jesus Manuel Cornejo Rangel]
-# Estado del Proyecto
+---
 
+## Estructura del Proyecto
+
+```
+NutriVisionAI/
+├── .vscode/
+│   └── settings.json     # Configuración compartida del editor
+├── src/
+│   ├── api/              # Llamadas y configuración de APIs externas
+│   ├── app/              # Rutas (Expo Router)
+│   ├── assets/           # Imágenes, fuentes y recursos estáticos
+│   ├── components/       # Componentes reutilizables (modales, sheets, etc.)
+│   ├── constants/        # Configuración y tema visual
+│   ├── context/          # Contexto global principal
+│   ├── contexts/         # Contextos globales (Auth, Theme)
+│   ├── database/         # Configuración y acceso a SQLite local
+│   ├── docs/             # Entregables y documentación del proyecto
+│   ├── hooks/            # Hooks personalizados
+│   ├── screens/          # Componentes de pantalla por módulo
+│   ├── services/         # Lógica de negocio (geminiService, etc.)
+│   ├── types/            # Definiciones de tipos TypeScript
+│   └── utils/            # Funciones utilitarias y helpers
+├── .gitignore
+├── app.json              # Configuración de la app Expo
+├── eslint.config.js      # Reglas de linting
+├── expo-env.d.ts         # Tipos de entorno Expo
+├── package-lock.json     # Versiones exactas de dependencias
+├── package.json          # Dependencias y scripts del proyecto
+├── README.md             # Documentación principal
+└── tsconfig.json         # Configuración de TypeScript
+```
+
+---
+
+## Entregables del Sprint 5
+
+De acuerdo con los lineamientos de la asignatura, los siguientes documentos deben estar presentes en la carpeta `docs/`:
+
+| Archivo | Responsable | Descripción |
+|---|---|---|
+| `solicitud_mejora_sprint5.md` | Analista | Solicitud formal de la mejora externa |
+| `analisis_impacto_mejora.md` | Analista | Análisis de impacto de la mejora |
+| `ajuste_diseno_sprint5.md` | Diseñador | Ajuste de interfaz derivado de la mejora |
+| `nota_tecnica_implementacion.md` | Dev Líder | Nota técnica de implementación |
+| `test_report_sprint5.md` | QA | Reporte de pruebas y no regresión |
+| `bitacora_sprint5.md` | Coordinador | Bitácora del sprint |
+| `retrospectiva_final.md` | Coordinador | Retrospectiva final del proyecto |
+
+---
+
+## Equipo — Sprint 5
+
+| Rol | Integrante | Rama |
+|---|---|---|
+| **Coordinador** | Francisco Javier Martinez Garcia | `feature-coordinador` |
+| **Analista** | Erick Martinez Rocha | `feature-analista` |
+| **Diseñador UX/UI** | Juan Antonio Castañuela Carlos | `feature-diseno` |
+| **QA / Tester** | Jesus Manuel Cornejo Rangel | `feature-qa` |
+| **Desarrollador** | Mariam Getzamaret Gomez Renteria | `feature-dev` |
+
+---
+
+## Notas de Seguridad
+
+- El archivo `.env` contiene la API Key de Gemini y **nunca debe subirse al repositorio**.
+- El archivo `.env.example` sirve como plantilla — cópialo y renómbralo a `.env`.
+- La base de datos SQLite se almacena localmente en el dispositivo; no se transmiten datos a servidores externos salvo las imágenes enviadas a la API de Gemini para análisis.
