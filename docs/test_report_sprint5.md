@@ -1,8 +1,11 @@
 ﻿Reporte de Pruebas – Sprint 5 
 
-**Proyecto:** NutriVisión AI 
-
-**QA:** Jesús Manuel Cornejo Rangel 
+**Proyecto:**  NutriVisión AI
+**Equipo:**  Phoenix
+**Rol:**  QA/Tester 
+**Integrante:**  Jesús Manuel Cornejo Rangel 
+**Rama:**  ‘featuer_qa’
+**Fecha:**  31 de mayo de 2026
 
 **Estado General:** FUNCIONAL (Evaluación en Expo Go) 
 
