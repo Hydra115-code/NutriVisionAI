@@ -2,7 +2,7 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 const { height } = Dimensions.get('window');
 
-export const styles = StyleSheet.create({
+export const makeStyles = (sc: (n: number) => number) => StyleSheet.create({
   overlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -35,7 +35,7 @@ export const styles = StyleSheet.create({
     marginRight: 16,
   },
   headerTitle: {
-    fontSize: 24,
+    fontSize: sc(24),
     fontWeight: '700',
   },
   scrollContainer: {
@@ -46,9 +46,13 @@ export const styles = StyleSheet.create({
     marginBottom: 32,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: sc(18),
     fontWeight: '700',
-    marginBottom: 16,
+    marginBottom: 4,
+  },
+  sectionSubtitle: {
+    fontSize: sc(13),
+    marginBottom: 14,
   },
   optionRow: {
     flexDirection: 'row',
@@ -62,12 +66,12 @@ export const styles = StyleSheet.create({
     paddingRight: 16,
   },
   optionTitle: {
-    fontSize: 16,
+    fontSize: sc(16),
     fontWeight: '600',
     marginBottom: 4,
   },
   optionDescription: {
-    fontSize: 14,
+    fontSize: sc(14),
   },
   toggleContainer: {
     flexDirection: 'row',
@@ -88,7 +92,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   saveButtonText: {
-    fontSize: 18,
+    fontSize: sc(18),
     fontWeight: '700',
     color: '#0f172a',
     marginRight: 8,

@@ -9,13 +9,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import AppModal, { useAppModal } from '../../components/AppModal';
 import { useAuth } from '../../contexts/AuthContext';
 import { useAppTheme } from '../../contexts/ThemeContext';
-import { styles } from './EditProfileScreen.styles';
+import { useScaledStyles } from '../../hooks/useScaledStyles';
+import { makeStyles } from './EditProfileScreen.styles';
 
 export default function EditProfileScreen() {
   const router = useRouter();
   const { user, updateProfile } = useAuth();
   const { colors } = useAppTheme();
   const { modal, showSuccess, showError, showWarning } = useAppModal();
+  const { sc } = useScaledStyles();
+  const styles = makeStyles(sc);
 
   const [nombre, setNombre] = useState(user?.nombre || '');
   const [peso, setPeso] = useState(user?.peso ? String(user.peso) : '');

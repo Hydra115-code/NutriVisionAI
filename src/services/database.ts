@@ -41,6 +41,7 @@ export interface FoodRecord {
   total_carbohidratos: string;
   total_grasas: string;
   total_azucares: string;
+  alimentos_json?: string;
   created_at: string;
 }
 
@@ -51,6 +52,8 @@ let db: SQLite.SQLiteDatabase;
 async function getDb(): Promise<SQLite.SQLiteDatabase> {
   if (!db) {
     db = await SQLite.openDatabaseAsync('nutrivision.db');
+    // Activar foreign keys cada vez que se abre la conexión
+    await db.execAsync(`PRAGMA foreign_keys = ON;`);
   }
   return db;
 }
@@ -188,8 +191,17 @@ export async function updateUserProfile(
   }
 }
 
-export async function resetPassword(email: string, newPassword: string): Promise<{ success: boolean; message: string }> {
+export async function getUserById(userId: number): Promise<User | null> {
   const database = await getDb();
+  const row = await database.getFirstAsync<any>(
+    `SELECT * FROM usuarios WHERE usuario_id = ? LIMIT 1`,
+    [userId]
+  );
+  if (!row) return null;
+  return mapRowToUser(row);
+}
+
+export async function resetPassword(email: string, newPassword: string): Promise<{ success: boolean; message: string }> {  const database = await getDb();
   const existing = await database.getFirstAsync<{ usuario_id: number }>(
     `SELECT usuario_id FROM usuarios WHERE correo = ?`,
     [email]
@@ -213,6 +225,19 @@ export async function saveFoodRecord(
 ): Promise<{ success: boolean }> {
   const database = await getDb();
   try {
+    // Asegurar que foreign_keys esté activo en esta conexión
+    await database.execAsync(`PRAGMA foreign_keys = ON;`);
+
+    // Verificar que el usuario exista antes de insertar para dar un error claro
+    const userExists = await database.getFirstAsync<{ count: number }>(
+      `SELECT COUNT(*) as count FROM usuarios WHERE usuario_id = ?`,
+      [userId]
+    );
+    if (!userExists || userExists.count === 0) {
+      console.error(`saveFoodRecord: usuario_id ${userId} no existe en la tabla usuarios`);
+      return { success: false };
+    }
+
     const now = new Date().toISOString();
     await database.runAsync(
       `INSERT INTO food_records (user_id, image_uri, total_calorias, total_proteinas, total_carbohidratos, total_grasas, total_azucares, alimentos_json, created_at)
@@ -256,6 +281,26 @@ export async function getWeekFoodRecords(userId: number): Promise<FoodRecord[]> 
     [userId, weekAgoStr]
   );
   return rows ?? [];
+}
+
+export async function getAllFoodRecords(userId: number): Promise<FoodRecord[]> {
+  const database = await getDb();
+  const rows = await database.getAllAsync<FoodRecord>(
+    `SELECT * FROM food_records WHERE user_id = ? ORDER BY created_at DESC`,
+    [userId]
+  );
+  return rows ?? [];
+}
+
+export async function deleteFoodRecord(recordId: number): Promise<boolean> {
+  const database = await getDb();
+  try {
+    await database.runAsync(`DELETE FROM food_records WHERE id = ?`, [recordId]);
+    return true;
+  } catch (error) {
+    console.error('Error eliminando registro:', error);
+    return false;
+  }
 }
 
 // ─── HELPERS ──────────────────────────────────────────────────────────────────

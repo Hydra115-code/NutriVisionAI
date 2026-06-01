@@ -1,66 +1,108 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// Tamaños de texto disponibles
+export type TextSizeOption = 'normal' | 'large' | 'xlarge';
+
+export const TEXT_SIZE_SCALE: Record<TextSizeOption, number> = {
+  normal: 1,
+  large: 1.2,
+  xlarge: 1.45,
+};
+
 interface AccessibilityContextType {
+  // Botón flotante
   showGadget: boolean;
   setShowGadget: (val: boolean) => void;
-  largeText: boolean;
-  setLargeText: (val: boolean) => void;
+
+  // Tamaño de texto
+  textSize: TextSizeOption;
+  setTextSize: (val: TextSizeOption) => void;
+  /** Multiplicador numérico listo para usar: normal=1, large=1.2, xlarge=1.45 */
+  fontScale: number;
+
+  // Alto contraste
   highContrast: boolean;
   setHighContrast: (val: boolean) => void;
+
+  // Reducir movimiento
   reduceMotion: boolean;
   setReduceMotion: (val: boolean) => void;
+
+  // Compatibilidad hacia atrás (alias de textSize !== 'normal')
+  largeText: boolean;
+  setLargeText: (val: boolean) => void;
 }
 
 const AccessibilityContext = createContext<AccessibilityContextType | undefined>(undefined);
 
 export function AccessibilityProvider({ children }: { children: React.ReactNode }) {
-  const [showGadget, setShowGadget] = useState(true);
-  const [largeText, setLargeText] = useState(false);
-  const [highContrast, setHighContrast] = useState(false);
-  const [reduceMotion, setReduceMotion] = useState(false);
+  const [showGadget, setShowGadgetState] = useState(true);
+  const [textSize, setTextSizeState] = useState<TextSizeOption>('normal');
+  const [highContrast, setHighContrastState] = useState(false);
+  const [reduceMotion, setReduceMotionState] = useState(false);
 
+  // Cargar preferencias guardadas
   useEffect(() => {
-    // Load preferences
-    const loadPrefs = async () => {
+    const load = async () => {
       try {
-        const gadget = await AsyncStorage.getItem('@acc_showGadget');
-        if (gadget !== null) setShowGadget(gadget === 'true');
-        
-        const text = await AsyncStorage.getItem('@acc_largeText');
-        if (text !== null) setLargeText(text === 'true');
-
+        const gadget   = await AsyncStorage.getItem('@acc_showGadget');
+        const size     = await AsyncStorage.getItem('@acc_textSize');
         const contrast = await AsyncStorage.getItem('@acc_highContrast');
-        if (contrast !== null) setHighContrast(contrast === 'true');
+        const motion   = await AsyncStorage.getItem('@acc_reduceMotion');
 
-        const motion = await AsyncStorage.getItem('@acc_reduceMotion');
-        if (motion !== null) setReduceMotion(motion === 'true');
+        if (gadget   !== null) setShowGadgetState(gadget === 'true');
+        if (size     !== null && ['normal','large','xlarge'].includes(size))
+          setTextSizeState(size as TextSizeOption);
+        if (contrast !== null) setHighContrastState(contrast === 'true');
+        if (motion   !== null) setReduceMotionState(motion === 'true');
       } catch (e) {
-        console.error('Failed to load accessibility preferences');
+        console.error('Error cargando preferencias de accesibilidad', e);
       }
     };
-    loadPrefs();
+    load();
   }, []);
 
-  const saveState = async (key: string, value: boolean, setter: (val: boolean) => void) => {
-    setter(value);
-    try {
-      await AsyncStorage.setItem(key, value.toString());
-    } catch (e) {
-      console.error('Failed to save accessibility preference', key);
-    }
+  // Helpers para guardar y actualizar
+  const setShowGadget = async (val: boolean) => {
+    setShowGadgetState(val);
+    await AsyncStorage.setItem('@acc_showGadget', String(val));
   };
+
+  const setTextSize = async (val: TextSizeOption) => {
+    setTextSizeState(val);
+    await AsyncStorage.setItem('@acc_textSize', val);
+  };
+
+  const setHighContrast = async (val: boolean) => {
+    setHighContrastState(val);
+    await AsyncStorage.setItem('@acc_highContrast', String(val));
+  };
+
+  const setReduceMotion = async (val: boolean) => {
+    setReduceMotionState(val);
+    await AsyncStorage.setItem('@acc_reduceMotion', String(val));
+  };
+
+  // Alias largeText para compatibilidad con código existente
+  const largeText = textSize !== 'normal';
+  const setLargeText = (val: boolean) => setTextSize(val ? 'large' : 'normal');
+
+  const fontScale = TEXT_SIZE_SCALE[textSize];
 
   return (
     <AccessibilityContext.Provider value={{
       showGadget,
-      setShowGadget: (v) => saveState('@acc_showGadget', v, setShowGadget),
-      largeText,
-      setLargeText: (v) => saveState('@acc_largeText', v, setLargeText),
+      setShowGadget,
+      textSize,
+      setTextSize,
+      fontScale,
       highContrast,
-      setHighContrast: (v) => saveState('@acc_highContrast', v, setHighContrast),
+      setHighContrast,
       reduceMotion,
-      setReduceMotion: (v) => saveState('@acc_reduceMotion', v, setReduceMotion),
+      setReduceMotion,
+      largeText,
+      setLargeText,
     }}>
       {children}
     </AccessibilityContext.Provider>
@@ -68,9 +110,7 @@ export function AccessibilityProvider({ children }: { children: React.ReactNode 
 }
 
 export function useAccessibility() {
-  const context = useContext(AccessibilityContext);
-  if (context === undefined) {
-    throw new Error('useAccessibility must be used within an AccessibilityProvider');
-  }
-  return context;
+  const ctx = useContext(AccessibilityContext);
+  if (!ctx) throw new Error('useAccessibility debe usarse dentro de AccessibilityProvider');
+  return ctx;
 }

@@ -1,13 +1,15 @@
 import React, { useCallback, useState } from 'react';
 import { Dimensions, ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { PieChart, BarChart } from 'react-native-chart-kit';
-import { useFocusEffect } from 'expo-router';
+import { PieChart } from 'react-native-chart-kit';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAppTheme } from '../../contexts/ThemeContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { getTodayFoodRecords, getWeekFoodRecords, type FoodRecord } from '../../services/database';
-import { styles } from './ExploreScreen.styles';
+import { useScaledStyles } from '../../hooks/useScaledStyles';
+import { makeStyles } from './ExploreScreen.styles';
+import WeeklyDetailSheet from '../../components/WeeklyDetailSheet';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -27,8 +29,12 @@ function getDayAbbr(dateStr: string): string {
 export default function ExploreScreen() {
   const { colors } = useAppTheme();
   const { user } = useAuth();
+  const { sc } = useScaledStyles();
+  const styles = makeStyles(sc);
+  const router = useRouter();
   const [todayRecords, setTodayRecords] = useState<FoodRecord[]>([]);
   const [weekRecords, setWeekRecords] = useState<FoodRecord[]>([]);
+  const [showWeeklySheet, setShowWeeklySheet] = useState(false);
 
   // Reload data every time the tab is focused
   useFocusEffect(
@@ -96,7 +102,12 @@ export default function ExploreScreen() {
   const yLabels = [String(yMax), String(Math.round(yMax * 0.75)), String(Math.round(yMax * 0.5)), String(Math.round(yMax * 0.25)), '0'];
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top', 'left', 'right']}>
+      <WeeklyDetailSheet
+        visible={showWeeklySheet}
+        weekRecords={weekRecords}
+        onClose={() => setShowWeeklySheet(false)}
+      />
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         
         <Text style={[styles.mainTitle, { color: colors.text }]}>Progreso Nutricional</Text>
@@ -182,7 +193,7 @@ export default function ExploreScreen() {
 
           <View style={[styles.weeklyFooter, { borderTopColor: colors.border }]}>
             <Text style={[styles.weeklyFooterText, { color: colors.textMuted }]}>Total grasas semana: <Text style={{ color: colors.text }}>{Math.round(Object.values(dayData).reduce((a, b) => a + b, 0))} g</Text></Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => setShowWeeklySheet(true)}>
               <Text style={[styles.viewMoreText, { color: colors.primaryGreen }]}>VER MÁS</Text>
             </TouchableOpacity>
           </View>
