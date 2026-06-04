@@ -87,7 +87,7 @@ npm install
 
 ### 3. Configurar variables de entorno
 
-Crea un archivo `.env` en la raíz del proyecto.
+Crea un archivo `.env` en la raíz del proyecto. (NutriVisionAI/.env).
 
 Luego edita `.env` y agrega tu API Key de Google Gemini:
 
