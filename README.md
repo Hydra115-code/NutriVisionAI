@@ -62,7 +62,15 @@ Se eligió una arquitectura móvil nativa (**React Native + Expo**) porque:
 - Expo Go instalado en tu dispositivo físico **o** un emulador de Android/iOS activo
 - Una API Key de Google Gemini (ver sección de variables de entorno)
 
+### Si no se cuentan con Node.js
+- Node.js: Ingresa a la página oficial (https://nodejs.org/es) y dirígete al cuadro verde. Al hacer clic, se te redirigirá a otra ventana donde deberás buscar la opción "Windows Installer". Al seleccionarla, la descarga comenzará automáticamente. Una vez que finalice, procede con la instalación.
+### Si no se cuenta con PowerShell
+- Ingresa a PowerShell mediante administrador, ingresa el siguiente código (Set-ExecutionPolicy RemoteSigned -Scope LocalMachine), cuando salga un mensaje preguntando una confirmación tecla **S** y **enter**. Después cerrar y abrir Visual Studio Code.
+
 ### 1. Clonar el repositorio
+
+Se recomienda crear una carpeta en escritorio, esto para guardar el proyecto, el nombre de la carpeta es opcional.
+Se trabaja con terminal de Visual Studio Code.
 
 ```bash
 git clone https://github.com/Hydra115-code/NutriVisionAI.git
