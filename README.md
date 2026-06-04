@@ -76,6 +76,7 @@ Se eligió una arquitectura móvil nativa (**React Native + Expo**) porque:
 ```bash
 git clone https://github.com/Hydra115-code/NutriVisionAI.git
 cd nutrivisionai
+git checkout -b desarrollo
 ```
 
 ### 2. Instalar dependencias
