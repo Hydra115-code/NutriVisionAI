@@ -72,7 +72,7 @@ Se eligió una arquitectura móvil nativa (**React Native + Expo**) porque:
 ### 1. Clonar el repositorio
 
 > Se recomienda crear una carpeta en escritorio, esto para guardar el proyecto, el nombre de la carpeta es opcional.
-> Se trabaja con terminal de Visual Studio Code.
+> Se trabaja con terminal de Visual Studio Code, excepto el paso 3.
 
 ```bash
 git clone https://github.com/Hydra115-code/NutriVisionAI.git
@@ -90,14 +90,14 @@ npm install
 
 Crea un archivo `.env` en la raíz del proyecto. (NutriVisionAI/.env).
 
-Luego edita `.env` y agrega tu API Key de Google Gemini:
+Luego edita `.env` y agrega tu API Key de Google Gemini. copia lo siguiente y cambia donde indique para tu llave API Key:
 
 ```env
 EXPO_PUBLIC_GEMINI_API_KEY=tu_api_key_aqui
 ```
 
 > **¿Cómo obtener la API Key?**
-> Ve a [Google AI Studio](https://aistudio.google.com/app/apikey), inicia sesión con tu cuenta de Google y genera una nueva clave. Es gratuita para uso de desarrollo.
+> Ve a [Google AI Studio](https://aistudio.google.com/app/apikey), inicia sesión con tu cuenta de Google personal (no usar correo institucional o empresarial) y genera una nueva clave. Es gratuita para uso de desarrollo.
 
 > **Importante:** El archivo `.env` está en `.gitignore` y **nunca debe subirse al repositorio** ya que contiene credenciales privadas.
 
