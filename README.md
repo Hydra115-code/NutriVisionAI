@@ -59,13 +59,14 @@ Se eligió una arquitectura móvil nativa (**React Native + Expo**) porque:
 
 - Node.js 18 o superior
 - npm 9 o superior
-- Expo Go instalado en tu dispositivo físico **o** un emulador de Android/iOS activo
+- Expo Go instalado en tu dispositivo físico/móvil **o** un emulador de Android/iOS activo
 - Una API Key de Google Gemini (ver sección de variables de entorno)
+- Tener el equipo de computo y el celular con el mismo internet
 
 > Si no se cuentan con Node.js
 > - Ingresa a la página oficial (https://nodejs.org/es) y dirígete al cuadro verde. Al hacer clic, se te redirigirá a otra ventana donde deberás buscar la opción "Windows Installer". Al seleccionarla, la descarga comenzará automáticamente. Una vez que finalice, procede con la instalación.
 
-> Si no se cuenta con PowerShell
+> Antes de un error por parte PowerShell
 > - Ingresa a PowerShell mediante administrador, ingresa el siguiente código (Set-ExecutionPolicy RemoteSigned -Scope LocalMachine), cuando salga un mensaje preguntando una confirmación tecla **S** y **enter**. Después cerrar y abrir Visual Studio Code.
 
 ### 1. Clonar el repositorio
@@ -75,7 +76,7 @@ Se eligió una arquitectura móvil nativa (**React Native + Expo**) porque:
 
 ```bash
 git clone https://github.com/Hydra115-code/NutriVisionAI.git
-cd nutrivisionai
+cd NutriVisionAI
 git checkout -b desarrollo
 ```
 
@@ -112,7 +113,7 @@ Una vez ejecutado, se desplegará en la consola la interfaz de Metro con las opc
 
 | Método | Instrucción |
 |---|---|
-| **Expo Go (físico)** | Escanea el código QR con la app Expo Go. Ambos dispositivos deben estar en la misma red Wi-Fi. |
+| **Expo Go (físico/móvil)** | Escanea el código QR con la app Expo Go. Ambos dispositivos deben estar en la misma red Wi-Fi. |
 | **Emulador Android** | Presiona `a` en la terminal con el AVD activo en Android Studio. |
 | **Simulador iOS** | Presiona `i` en la terminal (solo macOS con Xcode instalado). |
 
