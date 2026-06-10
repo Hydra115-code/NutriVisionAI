@@ -127,7 +127,7 @@ El recorrido del usuario está diseñado para ser sencillo y evitar errores al i
 2. **Registro de Perfil:** El usuario nuevo llena sus datos básicos. La app pregunta si padece Diabetes; si responde Sí, se muestran opciones adicionales para el tipo de diabetes.
 3. **Validación y Seguridad:** El sistema obliga a aceptar los términos y condiciones antes de continuar.
 4. **Dashboard Principal:** Panel con metas diarias, escaneo de alimentos por IA, historial y navegación por pestañas.
-5. **Escaneo de Alimentos:** El usuario fotografía su platillo; la IA identifica alimentos, estima macronutrientes y emite alertas si detecta alto índice glucémico.
+5. **Escaneo de Alimentos:** El usuario fotografía o usa una imagen guardada de comida en su telefono; la IA identifica alimentos, estima macronutrientes y emite alertas si detecta alto índice glucémico.
 6. **Progreso y Exportación:** El usuario puede revisar su actividad semanal con desglose detallado y exportar su historial en PDF.
 
 ---
