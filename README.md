@@ -103,7 +103,7 @@ EXPO_PUBLIC_GEMINI_API_KEY=tu_api_key_aqui
 ### 4. Iniciar el servidor de desarrollo
 
 ```bash
-npx expo start --clear
+npx expo start -c
 ```
 
 Una vez ejecutado, se desplegará en la consola la interfaz de Metro con las opciones de conexión y el código QR de vinculación.
