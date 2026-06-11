@@ -395,14 +395,6 @@ export default function DashboardScreen() {
             <View style={[styles.card, { backgroundColor: colors.card }]}>
               <Text style={[styles.sectionTitle, { color: colors.text }]}>Desglose Total</Text>
 
-              {/* Nota de valores aproximados */}
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 14, backgroundColor: colors.warningBg, borderRadius: 10, padding: 10 }}>
-                <MaterialCommunityIcons name="information-outline" size={15} color={colors.warningYellow} />
-                <Text style={{ fontSize: sc(12), color: colors.text, flex: 1, lineHeight: sc(17) }}>
-                  Valores aproximados estimados por IA. Puedes editarlos tocando ✏️ en cada alimento.
-                </Text>
-              </View>
-
               <View style={styles.grid}>
                 <View style={[styles.gridItem, { backgroundColor: colors.cardAlt, borderColor: colors.border }]}>
                   <Text style={[styles.gridLabel, { color: colors.textSecondary }]}>Calorías</Text>
@@ -420,6 +412,14 @@ export default function DashboardScreen() {
                   <Text style={[styles.gridLabel, { color: colors.textSecondary }]}>Proteínas</Text>
                   <Text style={[styles.gridValue, { color: colors.protein }]}>{resultado.totalProteinas}</Text>
                 </View>
+              </View>
+
+              {/* Nota de valores aproximados */}
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 14, backgroundColor: colors.warningBg, borderRadius: 10, padding: 10 }}>
+                <MaterialCommunityIcons name="information-outline" size={15} color={colors.warningYellow} />
+                <Text style={{ fontSize: sc(12), color: colors.text, flex: 1, lineHeight: sc(17) }}>
+                  Valores aproximados estimados por IA. Puedes editarlos tocando ✏️ en cada alimento.
+                </Text>
               </View>
             </View>
 

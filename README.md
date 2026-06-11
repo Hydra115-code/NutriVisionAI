@@ -53,58 +53,111 @@ Se eligió una arquitectura móvil nativa (**React Native + Expo**) porque:
 
 ---
 
-## Guía de Inicio Rápido (Local)
+## Guía de Instalación
 
 ### Requisitos previos
 
-- Node.js 18 o superior
-- npm 9 o superior
-- Expo Go instalado en tu dispositivo físico **o** un emulador de Android/iOS activo
-- Una API Key de Google Gemini (ver sección de variables de entorno)
+Antes de empezar, asegúrate de tener instalado:
 
-### 1. Clonar el repositorio
+- [Node.js 18+](https://nodejs.org/) — al instalarlo incluye npm automáticamente
+- [Git](https://git-scm.com/) — para clonar el repositorio
+- [Visual Studio Code](https://code.visualstudio.com/) — editor recomendado
+- [Expo Go](https://expo.dev/go) — app en tu celular para probar la aplicación
+
+> No necesitas Android Studio ni Xcode si usas tu celular físico con Expo Go.
+
+---
+
+### Paso 1 — Clonar el repositorio
+
+Abre una terminal (en cualquier carpeta donde quieras guardar el proyecto) y ejecuta:
 
 ```bash
-git clone <url-del-repositorio>
-cd nutrivisionai
+git clone https://github.com/tu-usuario/NutriVisionAI.git
 ```
 
-### 2. Instalar dependencias
+Esto creará una carpeta llamada `NutriVisionAI`. Entra en ella:
+
+```bash
+cd NutriVisionAI
+```
+
+---
+
+### Paso 2 — Abrir el proyecto en VS Code
+
+Desde la misma terminal:
+
+```bash
+code .
+```
+
+VS Code abrirá el proyecto. A partir de aquí **todos los comandos siguientes se ejecutan en la terminal integrada de VS Code** (`Ctrl + `` ` `` ` o menú `Terminal → Nueva terminal`).
+
+---
+
+### Paso 3 — Instalar dependencias
+
+En la terminal integrada de VS Code, dentro de la carpeta del proyecto, ejecuta:
 
 ```bash
 npm install
 ```
 
-### 3. Configurar variables de entorno
+Esto descargará todos los paquetes necesarios en la carpeta `node_modules`. Puede tardar un par de minutos la primera vez.
 
-Crea un archivo `.env` en la raíz del proyecto.
+---
 
-Luego edita `.env` y agrega tu API Key de Google Gemini:
+### Paso 4 — Configurar la API Key de Google Gemini
+
+La aplicación usa la IA de Google Gemini para analizar fotos de alimentos. Necesitas tu propia API Key gratuita.
+
+#### 4a. Obtener la API Key
+
+1. Ve a [Google AI Studio](https://aistudio.google.com/app/apikey)
+2. Inicia sesión con tu cuenta de Google
+3. Haz clic en **"Create API Key"**
+4. Copia la clave generada (se ve así: `AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`)
+
+#### 4b. Crear el archivo `.env`
+
+En la raíz del proyecto (la misma carpeta donde está `package.json`) crea un archivo llamado exactamente `.env`.
+
+Puedes hacerlo desde VS Code: clic derecho en el explorador de archivos → **New File** → escribe `.env`
+
+Abre ese archivo y pega lo siguiente, reemplazando el valor con tu clave real:
 
 ```env
-EXPO_PUBLIC_GEMINI_API_KEY=tu_api_key_aqui
+EXPO_PUBLIC_GEMINI_API_KEY=AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
-> **¿Cómo obtener la API Key?**
-> Ve a [Google AI Studio](https://aistudio.google.com/app/apikey), inicia sesión con tu cuenta de Google y genera una nueva clave. Es gratuita para uso de desarrollo.
+> El nombre de la variable debe ser exactamente `EXPO_PUBLIC_GEMINI_API_KEY`, sin espacios ni comillas alrededor del valor.
 
-> **Importante:** El archivo `.env` está en `.gitignore` y **nunca debe subirse al repositorio** ya que contiene credenciales privadas.
+> **Seguridad:** el archivo `.env` ya está listado en `.gitignore`, así que Git lo ignorará automáticamente y nunca se subirá al repositorio. Nunca compartas ni publiques este archivo.
 
-### 4. Iniciar el servidor de desarrollo
+---
+
+### Paso 5 — Iniciar la aplicación
+
+En la terminal integrada de VS Code ejecuta:
 
 ```bash
 npx expo start --clear
 ```
 
-Una vez ejecutado, se desplegará en la consola la interfaz de Metro con las opciones de conexión y el código QR de vinculación.
+Verás que se abre la interfaz de Metro Bundler en la terminal con un código QR.
 
-### 5. Abrir la app en tu dispositivo
+---
+
+### Paso 6 — Abrir la app en tu dispositivo
 
 | Método | Instrucción |
 |---|---|
-| **Expo Go (físico)** | Escanea el código QR con la app Expo Go. Ambos dispositivos deben estar en la misma red Wi-Fi. |
-| **Emulador Android** | Presiona `a` en la terminal con el AVD activo en Android Studio. |
+| **Expo Go (celular físico)** | Abre la app **Expo Go** en tu celular y escanea el código QR. Tu celular y tu computadora deben estar en la **misma red Wi-Fi**. |
+| **Emulador Android** | Con un AVD activo en Android Studio, presiona `a` en la terminal. |
 | **Simulador iOS** | Presiona `i` en la terminal (solo macOS con Xcode instalado). |
+
+La app se cargará en segundos y estará lista para usar.
 
 ---
 
@@ -231,6 +284,6 @@ De acuerdo con los lineamientos de la asignatura, los siguientes documentos debe
 
 ## Notas de Seguridad
 
-- El archivo `.env` contiene la API Key de Gemini y **nunca debe subirse al repositorio**.
-- El archivo `.env.example` sirve como plantilla — cópialo y renómbralo a `.env`.
+- El archivo `.env` contiene la API Key de Gemini y **nunca debe subirse al repositorio**. Ya está en `.gitignore` para protegerlo automáticamente.
+- Si compartes el proyecto con alguien más, cada persona debe crear su propio archivo `.env` con su propia API Key.
 - La base de datos SQLite se almacena localmente en el dispositivo; no se transmiten datos a servidores externos salvo las imágenes enviadas a la API de Gemini para análisis.
